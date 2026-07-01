@@ -63,6 +63,7 @@
       const { useEffect, useMemo, useState } = React;
 
       const storageKey = "karm-toolkit-impact";
+      const accessStorageKey = "karm-toolkit-access";
 
       const templates = [
         {
@@ -74,7 +75,7 @@
           descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
           color: "red",
           fileUrl: "assets/downloads/performance-management-template-2026.xlsx",
-          downloadName: "Performance Management Template - 2026.xlsx",
+          downloadName: "Performance Management Template - 2026xlsx.xlsx",
         },
         {
           id: "performance-management-manual",
@@ -98,7 +99,7 @@
         descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
         color: "green",
         fileUrl: "assets/downloads/performance-management-template-2026.xlsx",
-        downloadName: "Performance Management Template - 2026.xlsx",
+        downloadName: "Performance Management Template - 2026xlsx.xlsx",
       };
 
       const manualResource = {
@@ -167,8 +168,9 @@
             ["Measurable reach", "A simple download flow enables us to track adoption, understand reach, and continuously improve the toolkit."],
           ],
           templatesLabel: "Toolkit Downloads",
-          templatesTitle: "Download the templates after a short access form.",
-          fillDownload: "Fill form and download",
+          templatesTitle: "Fill one short access form, then download both documents.",
+          fillDownload: "Fill form to unlock downloads",
+          downloadNow: "Download",
           trainingLabel: "Training Videos",
           trainingTitle: "Short learning modules for managers and HR teams.",
           play: "Play",
@@ -188,12 +190,14 @@
           ],
           footerText: "Performance Management Toolkit",
           footerNote: "Designed as a CSR resource for accessible people management practices.",
-          modalLabel: "Download access",
+          modalLabel: "Toolkit access",
+          modalTitle: "Unlock the toolkit downloads",
+          modalHelp: "Submit the form once to access both documents in this browser.",
           closeForm: "Close form",
           fields: [["name", "Full name", "text"], ["email", "Work email", "email"], ["organization", "Organization", "text"], ["role", "Role or job title", "text"]],
           privacy: "Your information is used to understand toolkit reach and CSR impact. Replace this demo text with the final privacy notice before launch.",
-          submitDownload: "Submit and download",
-          notice: "is downloading. Thank you for helping us measure reach.",
+          submitDownload: "Submit and unlock downloads",
+          notice: "is downloading. You now have access to both documents.",
         },
         ar: {
           nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "الأثر", "الأسئلة"],
@@ -229,8 +233,9 @@
             ["قياس الوصول", "مسار تحميل بسيط يساعدنا على متابعة الاستخدام وفهم مدى الوصول وتطوير المجموعة باستمرار."],
           ],
           templatesLabel: "تحميل الأدوات",
-          templatesTitle: "حمّل النماذج بعد تعبئة نموذج وصول قصير.",
-          fillDownload: "املأ النموذج وحمّل",
+          templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
+          fillDownload: "املأ النموذج لفتح التحميلات",
+          downloadNow: "تحميل",
           trainingLabel: "فيديو التدريب",
           trainingTitle: "وحدة تدريبية قصيرة للمديرين وفرق الموارد البشرية.",
           play: "تشغيل",
@@ -250,12 +255,14 @@
           ],
           footerText: "مجموعة أدوات إدارة الأداء",
           footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
-          modalLabel: "بيانات التحميل",
+          modalLabel: "بيانات الوصول",
+          modalTitle: "فتح تحميلات مجموعة الأدوات",
+          modalHelp: "أرسل النموذج مرة واحدة للوصول إلى المستندين في هذا المتصفح.",
           closeForm: "إغلاق النموذج",
           fields: [["name", "الاسم الكامل", "text"], ["email", "البريد الإلكتروني للعمل", "email"], ["organization", "المؤسسة", "text"], ["role", "الدور أو المسمى الوظيفي", "text"]],
           privacy: "تُستخدم هذه البيانات لفهم مدى وصول المجموعة وقياس أثر المبادرة. يُرجى استبدال هذا النص بإشعار الخصوصية النهائي قبل الإطلاق.",
-          submitDownload: "إرسال وتحميل",
-          notice: "قيد التحميل. شكراً لمساعدتنا في قياس الوصول.",
+          submitDownload: "إرسال وفتح التحميلات",
+          notice: "قيد التحميل. أصبح بإمكانك الآن تحميل المستندين.",
         },
       };
 
@@ -283,6 +290,14 @@
         };
       }
 
+      function loadAccess() {
+        try {
+          return JSON.parse(localStorage.getItem(accessStorageKey)) === true;
+        } catch (error) {
+          return false;
+        }
+      }
+
       function downloadResource(resource) {
         const link = document.createElement("a");
         link.href = resource.fileUrl;
@@ -307,6 +322,7 @@
           tag: isArabic ? video.tagAr : video.tag,
         }));
         const [impact, setImpact] = useState(loadImpact);
+        const [hasAccess, setHasAccess] = useState(loadAccess);
         const [selectedTemplate, setSelectedTemplate] = useState(localizedTemplates[0]);
         const [isModalOpen, setIsModalOpen] = useState(false);
         const [form, setForm] = useState({
@@ -322,6 +338,10 @@
         }, [impact]);
 
         useEffect(() => {
+          localStorage.setItem(accessStorageKey, JSON.stringify(hasAccess));
+        }, [hasAccess]);
+
+        useEffect(() => {
           document.documentElement.lang = language;
           document.documentElement.dir = isArabic ? "rtl" : "ltr";
         }, [language, isArabic]);
@@ -331,10 +351,41 @@
           return sorted[0]?.[0] || copy.defaultTopTemplate;
         }, [impact.templates, copy.defaultTopTemplate]);
 
+        function recordDownload(template, submission = null) {
+          setImpact((currentImpact) => {
+            const currentSubmissions = currentImpact.submissions || [];
+            const currentTemplates = currentImpact.templates || {};
+            const nextSubmissions = submission
+              ? [...currentSubmissions, submission]
+              : currentSubmissions;
+            const uniqueOrganizations = new Set(
+              nextSubmissions.map((entry) => entry.organization.toLowerCase()).filter(Boolean)
+            );
+
+            return {
+              downloads: (currentImpact.downloads || 0) + 1,
+              organizations: uniqueOrganizations.size,
+              templates: {
+                ...currentTemplates,
+                [template.name]: (currentTemplates[template.name] || 0) + 1,
+              },
+              submissions: nextSubmissions,
+            };
+          });
+        }
+
         function openDownload(template) {
           setSelectedTemplate(template);
-          setIsModalOpen(true);
           setNotice("");
+
+          if (hasAccess) {
+            recordDownload(template);
+            downloadResource(template);
+            setNotice(`${template.name} ${copy.notice}`);
+            return;
+          }
+
+          setIsModalOpen(true);
         }
 
         function submitDownload(event) {
@@ -344,26 +395,14 @@
             Object.entries(form).map(([key, value]) => [key, value.trim()])
           );
 
-          const nextSubmissions = [...impact.submissions, {
+          const submission = {
             ...cleanForm,
-            template: selectedTemplate.name,
-            downloadedAt: new Date().toISOString(),
-          }];
+            requestedResource: selectedTemplate.name,
+            unlockedAt: new Date().toISOString(),
+          };
 
-          const uniqueOrganizations = new Set(
-            nextSubmissions.map((entry) => entry.organization.toLowerCase()).filter(Boolean)
-          );
-
-          setImpact({
-            downloads: impact.downloads + 1,
-            organizations: uniqueOrganizations.size,
-            templates: {
-              ...impact.templates,
-              [selectedTemplate.name]: (impact.templates[selectedTemplate.name] || 0) + 1,
-            },
-            submissions: nextSubmissions,
-          });
-
+          setHasAccess(true);
+          recordDownload(selectedTemplate, submission);
           downloadResource(selectedTemplate);
           setIsModalOpen(false);
           setNotice(`${selectedTemplate.name} ${copy.notice}`);
@@ -553,7 +592,7 @@
                         onClick={() => openDownload(template)}
                         className="mt-8 rounded-full bg-karm-charcoal px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-700"
                       >
-                        {copy.fillDownload}
+                        {hasAccess ? copy.downloadNow : copy.fillDownload}
                       </button>
                     </article>
                   ))}
@@ -688,7 +727,8 @@
                   <div className="mb-6 flex items-start justify-between gap-4">
                     <div>
                       <p className="text-sm font-black uppercase tracking-[0.18em] text-karm-red">{copy.modalLabel}</p>
-                      <h2 className="mt-2 text-2xl font-black text-karm-charcoal">{selectedTemplate.name}</h2>
+                      <h2 className="mt-2 text-2xl font-black text-karm-charcoal">{copy.modalTitle}</h2>
+                      <p className="mt-2 text-sm leading-6 text-gray-600">{copy.modalHelp}</p>
                     </div>
                     <button
                       type="button"
