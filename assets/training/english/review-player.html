@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Karm Performance Management Walkthrough - English Draft</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, Helvetica, sans-serif;
+        --charcoal: #56575a;
+        --red: #f9474c;
+        --green: #a4d831;
+        --blue: #52c4e7;
+        --line: #e3e6ea;
+      }
+      body {
+        margin: 0;
+        background: #f8f9fa;
+        color: var(--charcoal);
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 44px;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(28px, 4vw, 52px);
+        line-height: 1;
+      }
+      p {
+        margin: 0 0 22px;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .player {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 18px 45px rgba(30, 34, 40, 0.08);
+      }
+      .stage {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: #fff;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .controls {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 18px;
+        border-top: 1px solid var(--line);
+      }
+      button {
+        border: 0;
+        border-radius: 999px;
+        background: var(--red);
+        color: white;
+        font-weight: 800;
+        font-size: 16px;
+        padding: 12px 24px;
+        cursor: pointer;
+      }
+      audio {
+        flex: 1;
+        min-width: 240px;
+      }
+      .note {
+        margin-top: 18px;
+        color: #6b7280;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>English Video Draft</h1>
+      <p>Press play to review the narrated walkthrough. The slides are timed to the synthetic English narration.</p>
+      <section class="player">
+        <div class="stage">
+          <img id="slide" src="output/slide_01.jpg" alt="Video slide" />
+        </div>
+        <div class="controls">
+          <button id="playButton" type="button">Play draft</button>
+          <audio id="audio" controls src="output/english-narration.wav"></audio>
+        </div>
+      </section>
+      <p class="note">This is a review draft. After you approve the wording and flow, it can be turned into a final polished MP4 using a video encoder or a screen-recorded Excel walkthrough.</p>
+    </main>
+    <script>
+      const durations = [27.306, 25.716, 24.525, 38.121, 32.610, 33.783, 31.391, 32.146, 28.836, 27.314];
+      const slides = durations.map((_, index) => `output/slide_${String(index + 1).padStart(2, "0")}.jpg`);
+      const starts = durations.reduce((acc, duration, index) => {
+        acc.push(index === 0 ? 0 : acc[index - 1] + durations[index - 1]);
+        return acc;
+      }, []);
+      const audio = document.getElementById("audio");
+      const slide = document.getElementById("slide");
+      const playButton = document.getElementById("playButton");
+
+      function updateSlide() {
+        const time = audio.currentTime;
+        let index = starts.length - 1;
+        for (let i = 0; i < starts.length; i += 1) {
+          if (time < starts[i]) {
+            index = Math.max(0, i - 1);
+            break;
+          }
+        }
+        slide.src = slides[index];
+      }
+
+      playButton.addEventListener("click", async () => {
+        await audio.play();
+      });
+      audio.addEventListener("timeupdate", updateSlide);
+      audio.addEventListener("seeked", updateSlide);
+      audio.addEventListener("play", updateSlide);
+    </script>
+  </body>
+</html>
