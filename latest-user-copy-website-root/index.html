@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Karm Performance Management Toolkit, a free CSR initiative with practical templates and training resources."
+    />
+    <title>Karm Performance Management Toolkit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              karm: {
+                charcoal: "#58595B",
+                red: "#F24B4B",
+                blue: "#55C4EB",
+                green: "#A7D542",
+                orange: "#FAA626",
+              },
+            },
+            boxShadow: {
+              soft: "0 24px 70px rgba(88, 89, 91, 0.12)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      .brush-ring {
+        background:
+          radial-gradient(circle at 48% 50%, white 0 16%, transparent 17%),
+          radial-gradient(circle at 47% 50%, #faa626 0 24%, transparent 25%),
+          radial-gradient(circle at 50% 50%, #a7d542 0 46%, transparent 47%),
+          conic-gradient(from 10deg, #f24b4b, #f24b4b 48%, #55c4eb 49% 63%, #f24b4b 64% 100%);
+      }
+
+      .video-ratio {
+        aspect-ratio: 16 / 9;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-karm-charcoal antialiased">
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const { useEffect, useMemo, useState } = React;
+
+      const storageKey = "karm-toolkit-impact";
+      const accessStorageKey = "karm-toolkit-access";
+
+      const templates = [
+        {
+          id: "performance-management-template-2026",
+          name: "Performance Management Template - 2026",
+          nameAr: "نموذج إدارة الأداء 2026",
+          format: "XLSX",
+          description: "The full workbook for performance goals, reviews, calibration, and development planning.",
+          descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
+          color: "red",
+          fileUrl: "assets/downloads/Performance Management Template - 2026xlsx.xlsx",
+          downloadName: "Performance Management Template - 2026xlsx.xlsx",
+        },
+        {
+          id: "performance-management-manual",
+          name: "Performance Management Manual",
+          nameAr: "دليل إدارة الأداء",
+          format: "PDF",
+          description: "A complete step-by-step manual for applying the toolkit across the performance cycle.",
+          descriptionAr: "دليل عملي متكامل يوضح خطوات تطبيق مجموعة الأدوات خلال دورة إدارة الأداء.",
+          color: "green",
+          fileUrl: "assets/downloads/performance-management-manual.pdf",
+          downloadName: "Performance Management Manual.pdf",
+        },
+      ];
+
+      const templateWorkbook = {
+        id: "performance-management-template-2026",
+        name: "Performance Management Template - 2026",
+        nameAr: "نموذج إدارة الأداء 2026",
+        format: "XLSX",
+        description: "The full workbook for performance goals, reviews, calibration, and development planning.",
+        descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
+        color: "green",
+        fileUrl: "assets/downloads/Performance Management Template - 2026xlsx.xlsx",
+        downloadName: "Performance Management Template - 2026xlsx.xlsx",
+      };
+
+      const manualResource = {
+        id: "performance-management-manual",
+        name: "Performance Management Manual",
+        nameAr: "دليل إدارة الأداء",
+        format: "PDF",
+        description: "A complete step-by-step manual for applying the toolkit across the performance cycle.",
+        descriptionAr: "دليل عملي متكامل يوضح خطوات تطبيق مجموعة الأدوات خلال دورة إدارة الأداء.",
+        color: "blue",
+        fileUrl: "assets/downloads/performance-management-manual.pdf",
+        downloadName: "Performance Management Manual.pdf",
+      };
+
+      const videos = [
+        {
+          title: "Performance Management Foundations",
+          titleAr: "أساسيات إدارة الأداء",
+          length: "12 min",
+          lengthAr: "12 دقيقة",
+          tag: "Start here",
+          tagAr: "ابدأ هنا",
+          url: "assets/training/english/review-player.html",
+        },
+      ];
+
+      const colorMap = {
+        red: "border-karm-red text-karm-red bg-red-50",
+        green: "border-karm-green text-karm-green bg-lime-50",
+        blue: "border-karm-blue text-karm-blue bg-sky-50",
+        orange: "border-karm-orange text-karm-orange bg-orange-50",
+      };
+
+      const content = {
+        en: {
+          nav: ["About", "Initiative", "Templates", "Training", "Impact", "FAQ"],
+          navLinks: ["#about", "#initiative", "#templates", "#training", "#impact", "#faq"],
+          getToolkit: "Get toolkit",
+          languageButton: "العربية",
+          heroBadge: "Free CSR resource for growing teams",
+          heroTitle: ["Performance Management", "Tool", "for", "Everyone"],
+          heroText:
+            "Karm created this toolkit as part of our CSR commitment to support organizations, HR professionals, and managers in building fair, structured, and development-focused performance management practices. The materials are free to use and designed to help teams set clear objectives, provide meaningful feedback, and support employee growth.",
+          downloadTemplates: "Download Templates",
+          watchTraining: "Watch Training",
+          downloadManual: "Download Manual",
+          heroCards: ["Set goals", "Review progress", "Coach people", "Track impact"],
+          heroCardText: "Ready-to-use guidance and templates",
+          aboutLabel: "About this initiative",
+          aboutTitle: "Why Karm built this toolkit",
+          aboutParagraphs: [
+            "Many organizations lack the structured tools to run fair, transparent performance management cycles. They rely on informal processes that create inconsistency and missed development opportunities.",
+            "This toolkit is Karm's CSR contribution to changing that. Our HR team packaged our complete Performance Management System, the same one we use internally, into free, ready-to-use resources open to every organization.",
+          ],
+          aboutCards: [
+            ["People-First", "Every employee deserves clear expectations, structured feedback, and a fair evaluation process linked to real development."],
+            ["Open Access", "No subscriptions, no paywalls. All resources are completely free for any organization to use, adapt, and share."],
+            ["Measurable Impact", "We collect download data to track reach and demonstrate real-world CSR impact across sectors and countries."],
+            ["Built for All", "From startups to large enterprises, the toolkit scales to any organization size, sector, or job family structure."],
+          ],
+          initiativeLabel: "CSR Initiative",
+          initiativeTitle: "Unlocking better performance, clearer feedback, and stronger teams across every organization.",
+          initiativeItems: [
+            ["Open access", "Free templates for organizations that need structure without heavy consulting costs."],
+            ["Practical learning", "Short training videos explain how to apply the toolkit in real management routines."],
+            ["Measurable reach", "A simple download flow enables us to track adoption, understand reach, and continuously improve the toolkit."],
+          ],
+          templatesLabel: "Toolkit Downloads",
+          templatesTitle: "Fill one short access form, then download both documents.",
+          fillDownload: "Fill form to unlock downloads",
+          downloadNow: "Download",
+          trainingLabel: "Training Videos",
+          trainingTitle: "Short learning modules for managers and HR teams.",
+          play: "Play",
+          impactLabel: "Impact Dashboard",
+          impactTitle: "Dashboard For CSR Reach",
+          impactStats: ["Total downloads", "Organizations", "Top template"],
+          templateActivity: "Template activity",
+          localDemo: "Local demo",
+          defaultTopTemplate: "Performance Management Template - 2026",
+          faqLabel: "FAQ",
+          faqTitle: "Common questions about the toolkit.",
+          faqs: [
+            ["Is the toolkit free?", "Yes. The manual and templates are shared as part of Karm's CSR commitment and are free to use."],
+            ["Why is there a form before download?", "The short form helps Karm track reach, understand who is benefiting, and improve future CSR resources."],
+            ["Can we adapt the templates?", "Yes. Organizations can adapt the materials to match their structure, roles, and performance cycle."],
+            ["Where will the training videos go?", "The current video card is a placeholder. It can later be replaced with YouTube, Vimeo, or a hosted training link."],
+          ],
+          footerText: "Performance Management Toolkit",
+          footerNote: "Designed as a CSR resource for accessible people management practices.",
+          modalLabel: "Toolkit access",
+          modalTitle: "Unlock the toolkit downloads",
+          modalHelp: "Submit the form once to access both documents in this browser.",
+          closeForm: "Close form",
+          fields: [["name", "Full name", "text"], ["email", "Work email", "email"], ["organization", "Organization", "text"], ["role", "Role or job title", "text"]],
+          privacy: "Your information is used to understand toolkit reach and CSR impact. Replace this demo text with the final privacy notice before launch.",
+          submitDownload: "Submit and unlock downloads",
+          notice: "is downloading. You now have access to both documents.",
+        },
+        ar: {
+          nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "الأثر", "الأسئلة"],
+          navLinks: ["#about", "#initiative", "#templates", "#training", "#impact", "#faq"],
+          getToolkit: "احصل على الأدوات",
+          languageButton: "English",
+          heroBadge: "مورد مجاني ضمن مبادرات المسؤولية المجتمعية",
+          heroTitle: ["أداة إدارة الأداء", "للجميع", "", ""],
+          heroText:
+            "طورت كرم هذه المجموعة من الأدوات ضمن التزامها بالمسؤولية المجتمعية لدعم المؤسسات ومتخصصي الموارد البشرية والمديرين في بناء ممارسات عادلة ومنظمة تركز على التطوير في إدارة الأداء. المواد متاحة مجاناً لمساعدة الفرق على وضع أهداف واضحة، وتقديم تغذية راجعة فعالة، ودعم نمو الموظفين.",
+          downloadTemplates: "تحميل النماذج",
+          watchTraining: "مشاهدة التدريب",
+          downloadManual: "تحميل الدليل",
+          heroCards: ["تحديد الأهداف", "مراجعة التقدم", "توجيه الأفراد", "قياس الأثر"],
+          heroCardText: "إرشادات ونماذج جاهزة للاستخدام",
+          aboutLabel: "عن هذه المبادرة",
+          aboutTitle: "لماذا طورت كرم هذه المجموعة؟",
+          aboutParagraphs: [
+            "تفتقر العديد من المؤسسات إلى أدوات منظمة تساعدها على إدارة دورات أداء عادلة وشفافة. وغالباً ما يؤدي الاعتماد على إجراءات غير رسمية إلى تفاوت في التطبيق وضياع فرص التطوير.",
+            "تمثل هذه المجموعة مساهمة كرم في تغيير ذلك. فقد جمع فريق الموارد البشرية لدينا نظام إدارة الأداء الكامل المستخدم داخلياً في موارد مجانية وجاهزة للاستخدام ومتاحة لكل مؤسسة.",
+          ],
+          aboutCards: [
+            ["الإنسان أولاً", "كل موظف يستحق توقعات واضحة، وتغذية راجعة منظمة، وعملية تقييم عادلة ترتبط بتطوير حقيقي."],
+            ["إتاحة مفتوحة", "لا اشتراكات ولا قيود. جميع الموارد مجانية بالكامل ويمكن لأي مؤسسة استخدامها وتعديلها ومشاركتها."],
+            ["أثر قابل للقياس", "نجمع بيانات التحميل لفهم مدى الوصول وإظهار أثر المبادرة عملياً عبر القطاعات والدول."],
+            ["مصممة للجميع", "من الشركات الناشئة إلى المؤسسات الكبرى، يمكن مواءمة المجموعة مع مختلف الأحجام والقطاعات والهياكل الوظيفية."],
+          ],
+          initiativeLabel: "مبادرة مجتمعية",
+          initiativeTitle: "تمكين أداء أفضل، وتغذية راجعة أوضح، وفرق أقوى في كل مؤسسة.",
+          initiativeItems: [
+            ["إتاحة للجميع", "نماذج مجانية للمؤسسات التي تحتاج إلى هيكل واضح دون تكاليف استشارية عالية."],
+            ["تعلم عملي", "فيديو تدريبي قصير يوضح كيفية تطبيق المجموعة في ممارسات الإدارة اليومية."],
+            ["قياس الوصول", "مسار تحميل بسيط يساعدنا على متابعة الاستخدام وفهم مدى الوصول وتطوير المجموعة باستمرار."],
+          ],
+          templatesLabel: "تحميل الأدوات",
+          templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
+          fillDownload: "املأ النموذج لفتح التحميلات",
+          downloadNow: "تحميل",
+          trainingLabel: "فيديو التدريب",
+          trainingTitle: "وحدة تدريبية قصيرة للمديرين وفرق الموارد البشرية.",
+          play: "تشغيل",
+          impactLabel: "لوحة قياس الأثر",
+          impactTitle: "لوحة قياس وصول المبادرة",
+          impactStats: ["إجمالي التحميلات", "المؤسسات", "الأكثر تحميلاً"],
+          templateActivity: "نشاط التحميل",
+          localDemo: "عرض تجريبي",
+          defaultTopTemplate: "نموذج إدارة الأداء 2026",
+          faqLabel: "الأسئلة الشائعة",
+          faqTitle: "أسئلة شائعة حول مجموعة الأدوات.",
+          faqs: [
+            ["هل مجموعة الأدوات مجانية؟", "نعم. الدليل والنماذج متاحة مجاناً ضمن التزام كرم بالمسؤولية المجتمعية."],
+            ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا النموذج القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
+            ["هل يمكن تعديل النماذج؟", "نعم. يمكن للمؤسسات تعديل المواد بما يتناسب مع هيكلها وأدوارها ودورة إدارة الأداء لديها."],
+            ["أين سيتم وضع فيديو التدريب؟", "بطاقة الفيديو الحالية مساحة مؤقتة، ويمكن لاحقاً استبدالها برابط يوتيوب أو فيميو أو فيديو مستضاف."],
+          ],
+          footerText: "مجموعة أدوات إدارة الأداء",
+          footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
+          modalLabel: "بيانات الوصول",
+          modalTitle: "فتح تحميلات مجموعة الأدوات",
+          modalHelp: "أرسل النموذج مرة واحدة للوصول إلى المستندين في هذا المتصفح.",
+          closeForm: "إغلاق النموذج",
+          fields: [["name", "الاسم الكامل", "text"], ["email", "البريد الإلكتروني للعمل", "email"], ["organization", "المؤسسة", "text"], ["role", "الدور أو المسمى الوظيفي", "text"]],
+          privacy: "تُستخدم هذه البيانات لفهم مدى وصول المجموعة وقياس أثر المبادرة. يُرجى استبدال هذا النص بإشعار الخصوصية النهائي قبل الإطلاق.",
+          submitDownload: "إرسال وفتح التحميلات",
+          notice: "قيد التحميل. أصبح بإمكانك الآن تحميل المستندين.",
+        },
+      };
+
+      function localizeResource(resource, language) {
+        return {
+          ...resource,
+          name: language === "ar" ? resource.nameAr : resource.name,
+          description: language === "ar" ? resource.descriptionAr : resource.description,
+        };
+      }
+
+      function loadImpact() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(storageKey));
+          if (saved) return saved;
+        } catch (error) {
+          return null;
+        }
+
+        return {
+          downloads: 0,
+          organizations: 0,
+          templates: {},
+          submissions: [],
+        };
+      }
+
+      function loadAccess() {
+        try {
+          return JSON.parse(localStorage.getItem(accessStorageKey)) === true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function downloadResource(resource) {
+        const link = document.createElement("a");
+        link.href = resource.fileUrl;
+        link.download = resource.downloadName || "";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      function App() {
+        const [language, setLanguage] = useState("en");
+        const isArabic = language === "ar";
+        const copy = content[language];
+        const logoSrc = isArabic ? "assets/karm-logo-ar-cropped.png" : "assets/karm-logo-en-cropped.png";
+        const localizedTemplates = templates.map((template) => localizeResource(template, language));
+        const localizedTemplateWorkbook = localizeResource(templateWorkbook, language);
+        const localizedManualResource = localizeResource(manualResource, language);
+        const localizedVideos = videos.map((video) => ({
+          ...video,
+          title: isArabic ? video.titleAr : video.title,
+          length: isArabic ? video.lengthAr : video.length,
+          tag: isArabic ? video.tagAr : video.tag,
+        }));
+        const [impact, setImpact] = useState(loadImpact);
+        const [hasAccess, setHasAccess] = useState(loadAccess);
+        const [selectedTemplate, setSelectedTemplate] = useState(localizedTemplates[0]);
+        const [isModalOpen, setIsModalOpen] = useState(false);
+        const [form, setForm] = useState({
+          name: "",
+          email: "",
+          organization: "",
+          role: "",
+        });
+        const [notice, setNotice] = useState("");
+
+        useEffect(() => {
+          localStorage.setItem(storageKey, JSON.stringify(impact));
+        }, [impact]);
+
+        useEffect(() => {
+          localStorage.setItem(accessStorageKey, JSON.stringify(hasAccess));
+        }, [hasAccess]);
+
+        useEffect(() => {
+          document.documentElement.lang = language;
+          document.documentElement.dir = isArabic ? "rtl" : "ltr";
+        }, [language, isArabic]);
+
+        const topTemplate = useMemo(() => {
+          const sorted = Object.entries(impact.templates || {}).sort((a, b) => b[1] - a[1]);
+          return sorted[0]?.[0] || copy.defaultTopTemplate;
+        }, [impact.templates, copy.defaultTopTemplate]);
+
+        function recordDownload(template, submission = null) {
+          setImpact((currentImpact) => {
+            const currentSubmissions = currentImpact.submissions || [];
+            const currentTemplates = currentImpact.templates || {};
+            const nextSubmissions = submission
+              ? [...currentSubmissions, submission]
+              : currentSubmissions;
+            const uniqueOrganizations = new Set(
+              nextSubmissions.map((entry) => entry.organization.toLowerCase()).filter(Boolean)
+            );
+
+            return {
+              downloads: (currentImpact.downloads || 0) + 1,
+              organizations: uniqueOrganizations.size,
+              templates: {
+                ...currentTemplates,
+                [template.name]: (currentTemplates[template.name] || 0) + 1,
+              },
+              submissions: nextSubmissions,
+            };
+          });
+        }
+
+        function openDownload(template) {
+          setSelectedTemplate(template);
+          setNotice("");
+
+          if (hasAccess) {
+            recordDownload(template);
+            downloadResource(template);
+            setNotice(`${template.name} ${copy.notice}`);
+            return;
+          }
+
+          setIsModalOpen(true);
+        }
+
+        function submitDownload(event) {
+          event.preventDefault();
+
+          const cleanForm = Object.fromEntries(
+            Object.entries(form).map(([key, value]) => [key, value.trim()])
+          );
+
+          const submission = {
+            ...cleanForm,
+            requestedResource: selectedTemplate.name,
+            unlockedAt: new Date().toISOString(),
+          };
+
+          setHasAccess(true);
+          recordDownload(selectedTemplate, submission);
+          downloadResource(selectedTemplate);
+          setIsModalOpen(false);
+          setNotice(`${selectedTemplate.name} ${copy.notice}`);
+          setForm({ name: "", email: "", organization: "", role: "" });
+        }
+
+        return (
+          <main className={isArabic ? "text-right" : "text-left"}>
+            <header className="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
+              <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
+                <a href="#top" className="flex items-center gap-3">
+                  <img src={logoSrc} alt="Karm logo" className="h-14 w-auto md:h-16" />
+                </a>
+                <div className="hidden items-center gap-7 text-sm font-medium text-gray-600 md:flex">
+                  {copy.nav.map((item, index) => (
+                    <a key={item} className="hover:text-karm-red" href={copy.navLinks[index]}>{item}</a>
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setLanguage(isArabic ? "en" : "ar")}
+                    className="h-11 px-2 text-sm font-bold text-karm-charcoal underline-offset-4 transition hover:text-karm-red hover:underline"
+                  >
+                    {copy.languageButton}
+                  </button>
+                  <a
+                    href="#templates"
+                    className="flex h-11 items-center justify-center rounded-full bg-karm-charcoal px-5 text-sm font-semibold text-white shadow-soft transition hover:bg-gray-700"
+                  >
+                    {copy.getToolkit}
+                  </a>
+                </div>
+              </nav>
+            </header>
+
+            <section id="top" className="relative overflow-hidden border-b border-gray-100">
+              <div className="mx-auto grid min-h-[calc(100vh-74px)] max-w-7xl items-center gap-12 px-5 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+                <div>
+                  <div className="mb-7 inline-flex items-center gap-3 text-sm font-semibold text-gray-600">
+                    <span className="h-2.5 w-2.5 rounded-full bg-karm-red"></span>
+                    {copy.heroBadge}
+                  </div>
+                  <h1 className="max-w-4xl text-5xl font-black leading-[1.02] tracking-normal text-karm-charcoal md:text-7xl">
+                    {isArabic ? (
+                      <>
+                        {copy.heroTitle[0]}{" "}
+                        <span className="text-karm-green">{copy.heroTitle[1]}</span>.
+                      </>
+                    ) : (
+                      <>
+                        {copy.heroTitle[0]}{" "}
+                        <span className="text-karm-red">{copy.heroTitle[1]}</span> {copy.heroTitle[2]}{" "}
+                        <span className="text-karm-green">{copy.heroTitle[3]}</span>.
+                      </>
+                    )}
+                  </h1>
+                  <p className="mt-7 max-w-2xl text-lg leading-8 text-gray-600">
+                    {copy.heroText}
+                  </p>
+                  <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={() => openDownload(localizedTemplateWorkbook)}
+                      className="rounded-full bg-karm-red px-7 py-4 text-center text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5"
+                    >
+                      {copy.downloadTemplates}
+                    </button>
+                    <a
+                      href="#training"
+                      className="rounded-full border border-gray-300 px-7 py-4 text-center text-sm font-bold text-karm-charcoal transition hover:border-karm-blue hover:text-karm-blue"
+                    >
+                      {copy.watchTraining}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => openDownload(localizedManualResource)}
+                      className="rounded-full border border-karm-blue bg-white px-7 py-4 text-center text-sm font-bold text-karm-blue transition hover:bg-karm-blue hover:text-white"
+                    >
+                      {copy.downloadManual}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="relative pb-12">
+                  <div className="absolute right-2 top-0 h-24 w-24 rounded-full bg-karm-blue/20"></div>
+                  <div className="absolute bottom-6 left-0 h-20 w-20 rounded-full bg-karm-green/25"></div>
+                  <div className="relative mx-auto max-w-lg rounded-[2rem] border border-gray-100 bg-white p-6 shadow-soft">
+                    <div className="flex items-center border-b border-gray-100 pb-5">
+                      <img src={logoSrc} alt="Karm" className="h-auto w-full max-w-[380px]" />
+                    </div>
+                    <div className="grid gap-4 pt-6">
+                      {copy.heroCards.map((item, index) => (
+                        <div key={item} className="flex items-center gap-4 border-b border-gray-100 px-1 py-4 last:border-b-0">
+                          <div className={`h-3 w-3 rounded-full ${["bg-karm-red", "bg-karm-green", "bg-karm-blue", "bg-karm-orange"][index]}`}></div>
+                          <div>
+                            <p className="font-bold text-karm-charcoal">{item}</p>
+                            <p className="text-sm text-gray-500">{copy.heroCardText}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="about" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+              <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+                <div>
+                  <div className="mb-7 flex items-center gap-4">
+                    <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-red">{copy.aboutLabel}</p>
+                    <span className="hidden h-px w-16 bg-karm-red sm:block"></span>
+                  </div>
+                  <h2 className="max-w-xl text-4xl font-black leading-tight tracking-normal text-karm-charcoal md:text-5xl">
+                    {copy.aboutTitle}
+                  </h2>
+                  <div className="mt-7 max-w-3xl space-y-6 text-lg leading-8 text-gray-600">
+                    {copy.aboutParagraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  {copy.aboutCards.map(([title, text], index) => (
+                    <article key={title} className="rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm">
+                      <div className={`mb-8 flex h-11 w-11 items-center justify-center rounded-full ${["bg-karm-red", "bg-karm-blue", "bg-karm-green", "bg-karm-orange"][index]} text-sm font-black text-white`}>
+                        0{index + 1}
+                      </div>
+                      <h3 className="text-xl font-black text-karm-charcoal">{title}</h3>
+                      <p className="mt-3 leading-7 text-gray-600">{text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="initiative" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+              <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+                <div>
+                  <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-red">{copy.initiativeLabel}</p>
+                  <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
+                    {copy.initiativeTitle}
+                  </h2>
+                </div>
+                <div className="grid gap-5 md:grid-cols-3">
+                  {copy.initiativeItems.map(([title, text], index) => (
+                    <article key={title} className="border-t-4 border-gray-200 pt-5">
+                      <span className={`text-3xl font-black ${["text-karm-red", "text-karm-green", "text-karm-blue"][index]}`}>
+                        0{index + 1}
+                      </span>
+                      <h3 className="mt-5 text-xl font-black text-karm-charcoal">{title}</h3>
+                      <p className="mt-3 leading-7 text-gray-600">{text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="templates" className="bg-gray-50 py-20">
+              <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-green">{copy.templatesLabel}</p>
+                    <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-karm-charcoal">
+                      {copy.templatesTitle}
+                    </h2>
+                  </div>
+                  {notice && (
+                    <p className="max-w-sm rounded-2xl border border-karm-green/40 bg-white px-5 py-4 text-sm font-semibold text-gray-600 shadow-sm">
+                      {notice}
+                    </p>
+                  )}
+                </div>
+                <div className="mt-10 grid max-w-5xl gap-5 md:grid-cols-2">
+                  {localizedTemplates.map((template) => (
+                    <article key={template.id} className="flex min-h-[280px] flex-col justify-between rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                      <div>
+                        <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-black ${colorMap[template.color]}`}>
+                          {template.format}
+                        </span>
+                        <h3 className="mt-6 text-2xl font-black text-karm-charcoal">{template.name}</h3>
+                        <p className="mt-4 leading-7 text-gray-600">{template.description}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => openDownload(template)}
+                        className="mt-8 rounded-full bg-karm-charcoal px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-700"
+                      >
+                        {hasAccess ? copy.downloadNow : copy.fillDownload}
+                      </button>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section id="training" className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+              <div className="mb-10 max-w-3xl">
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-blue">{copy.trainingLabel}</p>
+                <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
+                  {copy.trainingTitle}
+                </h2>
+              </div>
+              <div className="grid max-w-2xl gap-6">
+                {localizedVideos.map((video, index) => (
+                  <a
+                    key={video.title}
+                    href={video.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  >
+                    <div className="video-ratio flex items-center justify-center bg-karm-charcoal">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl font-black text-karm-red">
+                        {copy.play}
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between gap-4">
+                        <span className={`rounded-full px-3 py-1 text-xs font-black ${["bg-red-50 text-karm-red", "bg-lime-50 text-karm-green", "bg-sky-50 text-karm-blue"][index]}`}>
+                          {video.tag}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-500">{video.length}</span>
+                      </div>
+                      <h3 className="mt-5 text-xl font-black text-karm-charcoal">{video.title}</h3>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+
+            <section id="impact" className="border-y border-gray-100 bg-white py-20">
+              <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-orange">{copy.impactLabel}</p>
+                    <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
+                      {copy.impactTitle}
+                    </h2>
+                  </div>
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+                    <div className="grid gap-4 md:grid-cols-3">
+                      {[
+                        [copy.impactStats[0], impact.downloads, "text-karm-red"],
+                        [copy.impactStats[1], impact.organizations, "text-karm-green"],
+                        [copy.impactStats[2], topTemplate, "text-karm-blue"],
+                      ].map(([label, value, color]) => (
+                        <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
+                          <p className="text-sm font-bold text-gray-500">{label}</p>
+                          <p className={`mt-3 break-words text-3xl font-black ${color}`}>{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-6 rounded-lg bg-white p-5 shadow-sm">
+                      <div className="mb-5 flex items-center justify-between">
+                        <h3 className="text-lg font-black text-karm-charcoal">{copy.templateActivity}</h3>
+                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-gray-400">{copy.localDemo}</span>
+                      </div>
+                      <div className="space-y-4">
+                        {localizedTemplates.map((template) => {
+                          const count = impact.templates[template.name] || 0;
+                          const width = impact.downloads ? Math.max(8, (count / impact.downloads) * 100) : 8;
+                          return (
+                            <div key={template.id}>
+                              <div className="mb-2 flex justify-between gap-4 text-sm font-semibold">
+                                <span>{template.name}</span>
+                                <span>{count}</span>
+                              </div>
+                              <div className="h-3 overflow-hidden rounded-full bg-gray-100">
+                                <div
+                                  className={`h-full rounded-full ${{
+                                    red: "bg-karm-red",
+                                    green: "bg-karm-green",
+                                    blue: "bg-karm-blue",
+                                    orange: "bg-karm-orange",
+                                  }[template.color]}`}
+                                  style={{ width: `${width}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="faq" className="bg-gray-50 py-20">
+              <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                <div className="mb-10 max-w-3xl">
+                  <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-red">{copy.faqLabel}</p>
+                  <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
+                    {copy.faqTitle}
+                  </h2>
+                </div>
+                <div className="grid gap-5 md:grid-cols-2">
+                  {copy.faqs.map(([question, answer], index) => (
+                    <article key={question} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                      <div className={`mb-4 h-2 w-16 rounded-full ${["bg-karm-red", "bg-karm-green", "bg-karm-blue", "bg-karm-orange"][index]}`}></div>
+                      <h3 className="text-xl font-black text-karm-charcoal">{question}</h3>
+                      <p className="mt-3 leading-7 text-gray-600">{answer}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <footer className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-10 text-sm text-gray-500 md:flex-row md:items-center md:justify-between lg:px-8">
+              <div className="flex items-center gap-4">
+                <img src={logoSrc} alt="Karm" className="h-14 w-auto" />
+                <span>{copy.footerText}</span>
+              </div>
+              <p>{copy.footerNote}</p>
+            </footer>
+
+            {isModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-karm-charcoal/60 px-5 py-8">
+                <div className="max-h-full w-full max-w-xl overflow-auto rounded-lg bg-white p-6 shadow-soft">
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-[0.18em] text-karm-red">{copy.modalLabel}</p>
+                      <h2 className="mt-2 text-2xl font-black text-karm-charcoal">{copy.modalTitle}</h2>
+                      <p className="mt-2 text-sm leading-6 text-gray-600">{copy.modalHelp}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(false)}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-xl font-bold text-gray-500 hover:border-karm-red hover:text-karm-red"
+                      aria-label={copy.closeForm}
+                    >
+                      X
+                    </button>
+                  </div>
+                  <form onSubmit={submitDownload} className="grid gap-4">
+                    {copy.fields.map(([name, label, type]) => (
+                      <label key={name} className="grid gap-2 text-sm font-bold text-karm-charcoal">
+                        {label}
+                        <input
+                          required
+                          type={type}
+                          value={form[name]}
+                          onChange={(event) => setForm({ ...form, [name]: event.target.value })}
+                          className="rounded-lg border border-gray-200 px-4 py-3 text-base font-medium outline-none transition focus:border-karm-blue focus:ring-4 focus:ring-karm-blue/15"
+                        />
+                      </label>
+                    ))}
+                    <p className="rounded-lg bg-gray-50 p-4 text-sm leading-6 text-gray-600">
+                      {copy.privacy}
+                    </p>
+                    <button
+                      type="submit"
+                      className="rounded-full bg-karm-red px-6 py-4 text-sm font-black text-white shadow-soft transition hover:-translate-y-0.5"
+                    >
+                      {copy.submitDownload}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            )}
+          </main>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
