@@ -66,18 +66,8 @@
       const accessStorageKey = "karm-toolkit-access";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
       const feedbackUrl = "https://www.karmsolar.com/";
-      const googleFormConfig = {
-        actionUrl: "",
-        fields: {
-          name: "",
-          email: "",
-          organization: "",
-          role: "",
-          country: "",
-          sector: "",
-          requestedResource: "",
-        },
-      };
+      const powerAutomateUrl =
+        "https://default739fefec510643ec910f467d81bbc9.2c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cf3318016d6e41908c079bcedf19b1a7/triggers/manual/paths/invoke?api-version=1";
 
       const templates = [
         {
@@ -394,19 +384,45 @@
         ).sort((a, b) => b[1] - a[1]);
       }
 
-      function submitToGoogleForm(submission) {
-        if (!googleFormConfig.actionUrl) return Promise.resolve();
+      function splitName(fullName) {
+        const parts = fullName.trim().split(/\s+/).filter(Boolean);
+        return {
+          firstName: parts[0] || "",
+          lastName: parts.slice(1).join(" "),
+        };
+      }
 
-        const formData = new FormData();
-        Object.entries(googleFormConfig.fields).forEach(([key, entryId]) => {
-          if (entryId) formData.append(entryId, submission[key] || "");
-        });
+      async function submitToPowerAutomate(submission) {
+        if (!powerAutomateUrl) return;
 
-        return fetch(googleFormConfig.actionUrl, {
-          method: "POST",
-          mode: "no-cors",
-          body: formData,
-        }).catch(() => null);
+        const { firstName, lastName } = splitName(submission.name || "");
+        const payload = {
+          timestamp: new Date().toISOString(),
+          firstName,
+          lastName,
+          email: submission.email,
+          organization: submission.organization,
+          country: submission.country,
+          region: submission.region || "",
+          role: submission.role,
+          sector: submission.sector,
+          source: "Website",
+          requestedResource: submission.requestedResource,
+        };
+
+        try {
+          await fetch(powerAutomateUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+        } catch (error) {
+          await fetch(powerAutomateUrl, {
+            method: "POST",
+            mode: "no-cors",
+            body: JSON.stringify(payload),
+          }).catch(() => null);
+        }
       }
 
       function App() {
@@ -510,7 +526,7 @@
             unlockedAt: new Date().toISOString(),
           };
 
-          await submitToGoogleForm(submission);
+          await submitToPowerAutomate(submission);
           setHasAccess(true);
           recordDownload(selectedTemplate, submission);
           downloadResource(selectedTemplate);
