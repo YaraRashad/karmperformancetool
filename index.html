@@ -66,6 +66,7 @@
       const accessStorageKey = "karm-toolkit-access";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
       const feedbackUrl = "https://www.karmsolar.com/";
+      const googleFormUrl = "";
 
       const templates = [
         {
@@ -193,6 +194,7 @@
           templatesTitle: "Fill one short access form, then download both documents.",
           fillDownload: "Fill form to unlock downloads",
           downloadNow: "Download",
+          formRedirectNotice: "Please complete the Google Form. Once submitted, return here to download both documents.",
           sharePrompt: "Found this useful? Share it with your network.",
           shareLinkedIn: "Share on LinkedIn",
           copyLink: "Copy link",
@@ -202,7 +204,7 @@
           play: "Play",
           impactLabel: "Impact Dashboard",
           impactTitle: "CSR Impact Dashboard",
-          impactStats: ["Total downloads", "Organizations", "Top template"],
+          impactStats: ["Total downloads", "Organizations"],
           templateActivity: "Template activity",
           countriesReached: "Countries reached",
           sectorBreakdown: "Sectors",
@@ -289,6 +291,7 @@
           templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
           fillDownload: "املأ النموذج لفتح التحميلات",
           downloadNow: "تحميل",
+          formRedirectNotice: "يرجى تعبئة نموذج جوجل. بعد الإرسال، عُد إلى هنا لتحميل المستندين.",
           sharePrompt: "وجدت هذا مفيداً؟ شاركه مع شبكتك.",
           shareLinkedIn: "مشاركة على لينكدإن",
           copyLink: "نسخ الرابط",
@@ -298,7 +301,7 @@
           play: "تشغيل",
           impactLabel: "لوحة قياس الأثر",
           impactTitle: "لوحة قياس أثر المبادرة",
-          impactStats: ["إجمالي التحميلات", "المؤسسات", "الأكثر تحميلاً"],
+          impactStats: ["إجمالي التحميلات", "المؤسسات"],
           templateActivity: "نشاط التحميل",
           countriesReached: "الدول التي وصلنا إليها",
           sectorBreakdown: "القطاعات",
@@ -423,11 +426,6 @@
           document.documentElement.dir = isArabic ? "rtl" : "ltr";
         }, [language, isArabic]);
 
-        const topTemplate = useMemo(() => {
-          const sorted = Object.entries(impact.templates || {}).sort((a, b) => b[1] - a[1]);
-          return sorted[0]?.[0] || copy.defaultTopTemplate;
-        }, [impact.templates, copy.defaultTopTemplate]);
-
         const countrySummary = useMemo(
           () => summarizeSubmissions(impact.submissions, "country"),
           [impact.submissions]
@@ -469,6 +467,12 @@
             recordDownload(template);
             downloadResource(template);
             setNotice(`${template.name} ${copy.notice}`);
+            return;
+          }
+
+          if (googleFormUrl) {
+            window.open(googleFormUrl, "_blank", "noopener,noreferrer");
+            setNotice(copy.formRedirectNotice);
             return;
           }
 
@@ -560,26 +564,24 @@
                     {copy.heroText}
                   </p>
                   <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                    <button
-                      type="button"
-                      onClick={() => openDownload(localizedTemplateWorkbook)}
+                    <a
+                      href="#templates"
                       className="rounded-full bg-karm-red px-7 py-4 text-center text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5"
                     >
                       {copy.downloadTemplates}
-                    </button>
+                    </a>
                     <a
                       href="#training"
                       className="rounded-full border border-gray-300 px-7 py-4 text-center text-sm font-bold text-karm-charcoal transition hover:border-karm-blue hover:text-karm-blue"
                     >
                       {copy.watchTraining}
                     </a>
-                    <button
-                      type="button"
-                      onClick={() => openDownload(localizedManualResource)}
+                    <a
+                      href="#templates"
                       className="rounded-full border border-karm-blue bg-white px-7 py-4 text-center text-sm font-bold text-karm-blue transition hover:bg-karm-blue hover:text-white"
                     >
                       {copy.downloadManual}
-                    </button>
+                    </a>
                   </div>
                 </div>
 
@@ -803,15 +805,14 @@
                     </h2>
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-                    <div className="grid gap-4 md:grid-cols-3">
+                    <div className="grid gap-4 md:grid-cols-2">
                       {[
                         [copy.impactStats[0], impact.downloads, "text-karm-red"],
                         [copy.impactStats[1], impact.organizations, "text-karm-green"],
-                        [copy.impactStats[2], topTemplate, "text-karm-blue"],
-                      ].map(([label, value, color], index) => (
+                      ].map(([label, value, color]) => (
                         <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
                           <p className="text-sm font-bold text-gray-500">{label}</p>
-                          <p className={`mt-3 font-black ${color} ${index === 2 ? "break-normal text-2xl leading-tight sm:text-3xl md:text-2xl xl:text-3xl" : "text-3xl"}`}>{value}</p>
+                          <p className={`mt-3 text-3xl font-black ${color}`}>{value}</p>
                         </div>
                       ))}
                     </div>
