@@ -64,6 +64,8 @@
 
       const storageKey = "karm-toolkit-impact";
       const accessStorageKey = "karm-toolkit-access";
+      const siteUrl = "https://yararashad.github.io/karmperformancetool/";
+      const feedbackUrl = "https://www.karmsolar.com/";
 
       const templates = [
         {
@@ -147,7 +149,12 @@
           watchTraining: "Watch Training",
           downloadManual: "Download Manual",
           heroCards: ["Set goals", "Review progress", "Coach people", "Track impact"],
-          heroCardText: "Ready-to-use guidance and templates",
+          heroCardText: [
+            "Define objectives, KPIs, owners, and timelines.",
+            "Run fair check-ins with clear progress evidence.",
+            "Guide feedback, support needs, and growth actions.",
+            "Measure reach and keep improving the toolkit.",
+          ],
           aboutLabel: "About this initiative",
           aboutTitle: "Why Karm built this toolkit",
           aboutParagraphs: [
@@ -167,17 +174,38 @@
             ["Practical learning", "Short training videos explain how to apply the toolkit in real management routines."],
             ["Measurable reach", "A simple download flow enables us to track adoption, understand reach, and continuously improve the toolkit."],
           ],
+          audienceLabel: "Who is this for?",
+          audienceTitle: "Built for different teams, sectors, and operating realities.",
+          audienceItems: [
+            ["Corporate HR teams", "Structure performance cycles across departments."],
+            ["NGOs & nonprofits", "Bring clarity without heavy consulting costs."],
+            ["Startups", "Set simple routines before teams scale."],
+            ["Field operations", "Support practical reviews across distributed teams."],
+          ],
+          howLabel: "How it works",
+          howTitle: "A simple path from interest to implementation.",
+          howSteps: [
+            ["Browse the toolkit", "Review what is included and how it supports performance management."],
+            ["Fill a short form", "Share basic information once so Karm can track CSR reach."],
+            ["Download & start using", "Access the template and manual, then tailor them to your organization."],
+          ],
           templatesLabel: "Toolkit Downloads",
           templatesTitle: "Fill one short access form, then download both documents.",
           fillDownload: "Fill form to unlock downloads",
           downloadNow: "Download",
+          sharePrompt: "Found this useful? Share it with your network.",
+          shareLinkedIn: "Share on LinkedIn",
+          copyLink: "Copy link",
+          copied: "Link copied.",
           trainingLabel: "Training Videos",
           trainingTitle: "Short learning modules for managers and HR teams.",
           play: "Play",
           impactLabel: "Impact Dashboard",
-          impactTitle: "Dashboard For CSR Reach",
+          impactTitle: "CSR Impact Dashboard",
           impactStats: ["Total downloads", "Organizations", "Top template"],
           templateActivity: "Template activity",
+          countriesReached: "Countries reached",
+          sectorBreakdown: "Sectors",
           localDemo: "Local demo",
           defaultTopTemplate: "Performance Management Template - 2026",
           faqLabel: "FAQ",
@@ -190,11 +218,16 @@
           ],
           footerText: "Performance Management Toolkit",
           footerNote: "Designed as a CSR resource for accessible people management practices.",
+          feedbackLabel: "Feedback",
+          feedbackTitle: "Have a question, issue, or thank you note?",
+          feedbackText: "Your feedback helps Karm improve this CSR resource and understand how teams are using it.",
+          feedbackButton: "Share feedback on the toolkit",
+          karmWebsite: "Visit Karm",
           modalLabel: "Toolkit access",
           modalTitle: "Unlock the toolkit downloads",
           modalHelp: "Submit the form once to access both documents in this browser.",
           closeForm: "Close form",
-          fields: [["name", "Full name", "text"], ["email", "Work email", "email"], ["organization", "Organization", "text"], ["role", "Role or job title", "text"]],
+          fields: [["name", "Full name", "text"], ["email", "Work email", "email"], ["organization", "Organization", "text"], ["role", "Role or job title", "text"], ["country", "Country", "text"], ["sector", "Sector", "text"]],
           privacy: "Your information is used to understand toolkit reach and CSR impact. Replace this demo text with the final privacy notice before launch.",
           submitDownload: "Submit and unlock downloads",
           notice: "is downloading. You now have access to both documents.",
@@ -212,7 +245,12 @@
           watchTraining: "مشاهدة التدريب",
           downloadManual: "تحميل الدليل",
           heroCards: ["تحديد الأهداف", "مراجعة التقدم", "توجيه الأفراد", "قياس الأثر"],
-          heroCardText: "إرشادات ونماذج جاهزة للاستخدام",
+          heroCardText: [
+            "تحديد الأهداف ومؤشرات القياس والمسؤوليات والجداول الزمنية.",
+            "إدارة مراجعات عادلة تعتمد على مؤشرات تقدم واضحة.",
+            "توجيه التغذية الراجعة واحتياجات الدعم وخطوات التطوير.",
+            "قياس مدى الوصول والاستمرار في تحسين مجموعة الأدوات.",
+          ],
           aboutLabel: "عن هذه المبادرة",
           aboutTitle: "لماذا طورت كرم هذه المجموعة؟",
           aboutParagraphs: [
@@ -232,17 +270,38 @@
             ["تعلم عملي", "فيديو تدريبي قصير يوضح كيفية تطبيق المجموعة في ممارسات الإدارة اليومية."],
             ["قياس الوصول", "مسار تحميل بسيط يساعدنا على متابعة الاستخدام وفهم مدى الوصول وتطوير المجموعة باستمرار."],
           ],
+          audienceLabel: "لمن صُممت؟",
+          audienceTitle: "مصممة لفرق وقطاعات وبيئات عمل مختلفة.",
+          audienceItems: [
+            ["فرق الموارد البشرية", "تنظيم دورات الأداء عبر الإدارات."],
+            ["المنظمات غير الربحية", "إضافة الوضوح دون تكاليف استشارية عالية."],
+            ["الشركات الناشئة", "بناء ممارسات بسيطة قبل توسع الفريق."],
+            ["فرق التشغيل الميداني", "دعم مراجعات عملية للفرق المنتشرة."],
+          ],
+          howLabel: "كيف تعمل؟",
+          howTitle: "مسار بسيط من التعرف على الأداة إلى التطبيق.",
+          howSteps: [
+            ["تصفح مجموعة الأدوات", "تعرف على المحتوى وكيف يدعم إدارة الأداء."],
+            ["املأ نموذجاً قصيراً", "شارك بيانات أساسية مرة واحدة لمساعدة كرم على قياس أثر المبادرة."],
+            ["حمّل وابدأ الاستخدام", "احصل على النموذج والدليل، ثم عدّلهما بما يناسب مؤسستك."],
+          ],
           templatesLabel: "تحميل الأدوات",
           templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
           fillDownload: "املأ النموذج لفتح التحميلات",
           downloadNow: "تحميل",
+          sharePrompt: "وجدت هذا مفيداً؟ شاركه مع شبكتك.",
+          shareLinkedIn: "مشاركة على لينكدإن",
+          copyLink: "نسخ الرابط",
+          copied: "تم نسخ الرابط.",
           trainingLabel: "فيديو التدريب",
           trainingTitle: "وحدة تدريبية قصيرة للمديرين وفرق الموارد البشرية.",
           play: "تشغيل",
           impactLabel: "لوحة قياس الأثر",
-          impactTitle: "لوحة قياس وصول المبادرة",
+          impactTitle: "لوحة قياس أثر المبادرة",
           impactStats: ["إجمالي التحميلات", "المؤسسات", "الأكثر تحميلاً"],
           templateActivity: "نشاط التحميل",
+          countriesReached: "الدول التي وصلنا إليها",
+          sectorBreakdown: "القطاعات",
           localDemo: "عرض تجريبي",
           defaultTopTemplate: "نموذج إدارة الأداء 2026",
           faqLabel: "الأسئلة الشائعة",
@@ -255,11 +314,16 @@
           ],
           footerText: "مجموعة أدوات إدارة الأداء",
           footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
+          feedbackLabel: "التغذية الراجعة",
+          feedbackTitle: "لديك سؤال أو ملاحظة أو رسالة شكر؟",
+          feedbackText: "تساعدنا ملاحظاتك على تحسين هذا المورد المجتمعي وفهم كيفية استخدام الفرق له.",
+          feedbackButton: "شارك رأيك حول مجموعة الأدوات",
+          karmWebsite: "زيارة كرم",
           modalLabel: "بيانات الوصول",
           modalTitle: "فتح تحميلات مجموعة الأدوات",
           modalHelp: "أرسل النموذج مرة واحدة للوصول إلى المستندين في هذا المتصفح.",
           closeForm: "إغلاق النموذج",
-          fields: [["name", "الاسم الكامل", "text"], ["email", "البريد الإلكتروني للعمل", "email"], ["organization", "المؤسسة", "text"], ["role", "الدور أو المسمى الوظيفي", "text"]],
+          fields: [["name", "الاسم الكامل", "text"], ["email", "البريد الإلكتروني للعمل", "email"], ["organization", "المؤسسة", "text"], ["role", "الدور أو المسمى الوظيفي", "text"], ["country", "الدولة", "text"], ["sector", "القطاع", "text"]],
           privacy: "تُستخدم هذه البيانات لفهم مدى وصول المجموعة وقياس أثر المبادرة. يُرجى استبدال هذا النص بإشعار الخصوصية النهائي قبل الإطلاق.",
           submitDownload: "إرسال وفتح التحميلات",
           notice: "قيد التحميل. أصبح بإمكانك الآن تحميل المستندين.",
@@ -307,6 +371,17 @@
         link.remove();
       }
 
+      function summarizeSubmissions(submissions, key) {
+        return Object.entries(
+          (submissions || []).reduce((summary, entry) => {
+            const value = (entry[key] || "").trim();
+            if (!value) return summary;
+            summary[value] = (summary[value] || 0) + 1;
+            return summary;
+          }, {})
+        ).sort((a, b) => b[1] - a[1]);
+      }
+
       function App() {
         const [language, setLanguage] = useState("en");
         const isArabic = language === "ar";
@@ -330,6 +405,8 @@
           email: "",
           organization: "",
           role: "",
+          country: "",
+          sector: "",
         });
         const [notice, setNotice] = useState("");
 
@@ -350,6 +427,16 @@
           const sorted = Object.entries(impact.templates || {}).sort((a, b) => b[1] - a[1]);
           return sorted[0]?.[0] || copy.defaultTopTemplate;
         }, [impact.templates, copy.defaultTopTemplate]);
+
+        const countrySummary = useMemo(
+          () => summarizeSubmissions(impact.submissions, "country"),
+          [impact.submissions]
+        );
+
+        const sectorSummary = useMemo(
+          () => summarizeSubmissions(impact.submissions, "sector"),
+          [impact.submissions]
+        );
 
         function recordDownload(template, submission = null) {
           setImpact((currentImpact) => {
@@ -406,7 +493,16 @@
           downloadResource(selectedTemplate);
           setIsModalOpen(false);
           setNotice(`${selectedTemplate.name} ${copy.notice}`);
-          setForm({ name: "", email: "", organization: "", role: "" });
+          setForm({ name: "", email: "", organization: "", role: "", country: "", sector: "" });
+        }
+
+        function copyToolkitLink() {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(siteUrl).then(() => setNotice(copy.copied));
+            return;
+          }
+
+          setNotice(siteUrl);
         }
 
         return (
@@ -500,7 +596,7 @@
                           <div className={`h-3 w-3 rounded-full ${["bg-karm-red", "bg-karm-green", "bg-karm-blue", "bg-karm-orange"][index]}`}></div>
                           <div>
                             <p className="font-bold text-karm-charcoal">{item}</p>
-                            <p className="text-sm text-gray-500">{copy.heroCardText}</p>
+                            <p className="text-sm text-gray-500">{copy.heroCardText[index]}</p>
                           </div>
                         </div>
                       ))}
@@ -562,6 +658,48 @@
               </div>
             </section>
 
+            <section className="bg-gray-50 py-16">
+              <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-blue">{copy.audienceLabel}</p>
+                    <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-karm-charcoal">
+                      {copy.audienceTitle}
+                    </h2>
+                  </div>
+                </div>
+                <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                  {copy.audienceItems.map(([title, text], index) => (
+                    <article key={title} className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                      <div className={`mb-5 h-2 w-14 rounded-full ${["bg-karm-red", "bg-karm-green", "bg-karm-blue", "bg-karm-orange"][index]}`}></div>
+                      <h3 className="text-xl font-black text-karm-charcoal">{title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-gray-600">{text}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+              <div className="mb-10 max-w-3xl">
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-orange">{copy.howLabel}</p>
+                <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
+                  {copy.howTitle}
+                </h2>
+              </div>
+              <div className="grid gap-5 md:grid-cols-3">
+                {copy.howSteps.map(([title, text], index) => (
+                  <article key={title} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+                    <span className={`text-4xl font-black ${["text-karm-red", "text-karm-green", "text-karm-blue"][index]}`}>
+                      0{index + 1}
+                    </span>
+                    <h3 className="mt-6 text-xl font-black text-karm-charcoal">{title}</h3>
+                    <p className="mt-3 leading-7 text-gray-600">{text}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
             <section id="templates" className="bg-gray-50 py-20">
               <div className="mx-auto max-w-7xl px-5 lg:px-8">
                 <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
@@ -596,6 +734,26 @@
                       </button>
                     </article>
                   ))}
+                </div>
+                <div className="mt-8 flex flex-col gap-4 rounded-lg border border-gray-200 bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between">
+                  <p className="font-bold text-karm-charcoal">{copy.sharePrompt}</p>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(siteUrl)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="rounded-full border border-karm-blue px-5 py-3 text-center text-sm font-bold text-karm-blue transition hover:bg-karm-blue hover:text-white"
+                    >
+                      {copy.shareLinkedIn}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={copyToolkitLink}
+                      className="rounded-full border border-gray-300 px-5 py-3 text-sm font-bold text-karm-charcoal transition hover:border-karm-red hover:text-karm-red"
+                    >
+                      {copy.copyLink}
+                    </button>
+                  </div>
                 </div>
               </div>
             </section>
@@ -650,10 +808,10 @@
                         [copy.impactStats[0], impact.downloads, "text-karm-red"],
                         [copy.impactStats[1], impact.organizations, "text-karm-green"],
                         [copy.impactStats[2], topTemplate, "text-karm-blue"],
-                      ].map(([label, value, color]) => (
+                      ].map(([label, value, color], index) => (
                         <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
                           <p className="text-sm font-bold text-gray-500">{label}</p>
-                          <p className={`mt-3 break-words text-3xl font-black ${color}`}>{value}</p>
+                          <p className={`mt-3 font-black ${color} ${index === 2 ? "break-normal text-2xl leading-tight sm:text-3xl md:text-2xl xl:text-3xl" : "text-3xl"}`}>{value}</p>
                         </div>
                       ))}
                     </div>
@@ -688,7 +846,64 @@
                         })}
                       </div>
                     </div>
+                    <div className="mt-6 grid gap-4 md:grid-cols-2">
+                      {[
+                        [copy.countriesReached, countrySummary, "bg-karm-blue"],
+                        [copy.sectorBreakdown, sectorSummary, "bg-karm-orange"],
+                      ].map(([label, rows, color]) => (
+                        <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
+                          <div className="mb-4 flex items-center justify-between">
+                            <h3 className="text-lg font-black text-karm-charcoal">{label}</h3>
+                            <span className="text-3xl font-black text-karm-charcoal">{rows.length}</span>
+                          </div>
+                          <div className="space-y-3">
+                            {(rows.length ? rows : [["-", 0]]).slice(0, 4).map(([name, count]) => (
+                              <div key={name}>
+                                <div className="mb-1 flex justify-between gap-4 text-sm font-semibold text-gray-600">
+                                  <span>{name}</span>
+                                  <span>{count}</span>
+                                </div>
+                                <div className="h-2 overflow-hidden rounded-full bg-gray-100">
+                                  <div
+                                    className={`h-full rounded-full ${color}`}
+                                    style={{ width: `${count ? Math.max(12, (count / Math.max(...rows.map((row) => row[1]))) * 100) : 8}%` }}
+                                  ></div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm md:flex md:items-center md:justify-between md:gap-8">
+                <div className="max-w-2xl">
+                  <p className="text-sm font-black uppercase tracking-[0.2em] text-karm-green">{copy.feedbackLabel}</p>
+                  <h2 className="mt-3 text-3xl font-black tracking-normal text-karm-charcoal">{copy.feedbackTitle}</h2>
+                  <p className="mt-3 leading-7 text-gray-600">{copy.feedbackText}</p>
+                </div>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row md:mt-0">
+                  <a
+                    href={feedbackUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full bg-karm-charcoal px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-gray-700"
+                  >
+                    {copy.feedbackButton}
+                  </a>
+                  <a
+                    href="https://www.karmsolar.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-full border border-gray-300 px-6 py-3 text-center text-sm font-bold text-karm-charcoal transition hover:border-karm-red hover:text-karm-red"
+                  >
+                    {copy.karmWebsite}
+                  </a>
                 </div>
               </div>
             </section>
