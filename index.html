@@ -66,7 +66,18 @@
       const accessStorageKey = "karm-toolkit-access";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
       const feedbackUrl = "https://www.karmsolar.com/";
-      const googleFormUrl = "";
+      const googleFormConfig = {
+        actionUrl: "",
+        fields: {
+          name: "",
+          email: "",
+          organization: "",
+          role: "",
+          country: "",
+          sector: "",
+          requestedResource: "",
+        },
+      };
 
       const templates = [
         {
@@ -194,7 +205,6 @@
           templatesTitle: "Fill one short access form, then download both documents.",
           fillDownload: "Fill form to unlock downloads",
           downloadNow: "Download",
-          formRedirectNotice: "Please complete the Google Form. Once submitted, return here to download both documents.",
           sharePrompt: "Found this useful? Share it with your network.",
           shareLinkedIn: "Share on LinkedIn",
           copyLink: "Copy link",
@@ -291,7 +301,6 @@
           templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
           fillDownload: "املأ النموذج لفتح التحميلات",
           downloadNow: "تحميل",
-          formRedirectNotice: "يرجى تعبئة نموذج جوجل. بعد الإرسال، عُد إلى هنا لتحميل المستندين.",
           sharePrompt: "وجدت هذا مفيداً؟ شاركه مع شبكتك.",
           shareLinkedIn: "مشاركة على لينكدإن",
           copyLink: "نسخ الرابط",
@@ -385,6 +394,21 @@
         ).sort((a, b) => b[1] - a[1]);
       }
 
+      function submitToGoogleForm(submission) {
+        if (!googleFormConfig.actionUrl) return Promise.resolve();
+
+        const formData = new FormData();
+        Object.entries(googleFormConfig.fields).forEach(([key, entryId]) => {
+          if (entryId) formData.append(entryId, submission[key] || "");
+        });
+
+        return fetch(googleFormConfig.actionUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        }).catch(() => null);
+      }
+
       function App() {
         const [language, setLanguage] = useState("en");
         const isArabic = language === "ar";
@@ -470,16 +494,10 @@
             return;
           }
 
-          if (googleFormUrl) {
-            window.open(googleFormUrl, "_blank", "noopener,noreferrer");
-            setNotice(copy.formRedirectNotice);
-            return;
-          }
-
           setIsModalOpen(true);
         }
 
-        function submitDownload(event) {
+        async function submitDownload(event) {
           event.preventDefault();
 
           const cleanForm = Object.fromEntries(
@@ -492,6 +510,7 @@
             unlockedAt: new Date().toISOString(),
           };
 
+          await submitToGoogleForm(submission);
           setHasAccess(true);
           recordDownload(selectedTemplate, submission);
           downloadResource(selectedTemplate);
