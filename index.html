@@ -63,11 +63,9 @@
       const { useEffect, useMemo, useState } = React;
 
       const storageKey = "karm-toolkit-impact";
-      const accessStorageKey = "karm-toolkit-access";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
       const feedbackUrl = "https://www.karmsolar.com/";
-      const powerAutomateUrl =
-        "https://default739fefec510643ec910f467d81bbc9.2c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/cf3318016d6e41908c079bcedf19b1a7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=a9s35VejWC4BEiu_gEUBSdq8_ZL4Jz2rRF-vsZf4GQY";
+      const microsoftFormUrl = "https://forms.cloud.microsoft/r/hD98dw9DaA";
 
       const templates = [
         {
@@ -193,7 +191,8 @@
           ],
           templatesLabel: "Toolkit Downloads",
           templatesTitle: "Fill one short access form, then download both documents.",
-          fillDownload: "Fill form to unlock downloads",
+          fillDownload: "Open access form",
+          formRedirectNotice: "The Microsoft Form opened in a new tab. After submitting it, use the confirmation message to access both documents.",
           downloadNow: "Download",
           sharePrompt: "Found this useful? Share it with your network.",
           shareLinkedIn: "Share on LinkedIn",
@@ -214,7 +213,7 @@
           faqTitle: "Common questions about the toolkit.",
           faqs: [
             ["Is the toolkit free?", "Yes. The manual and templates are shared as part of Karm's CSR commitment and are free to use."],
-            ["Why is there a form before download?", "The short form helps Karm track reach, understand who is benefiting, and improve future CSR resources."],
+            ["Why is there a form before download?", "The short Microsoft Form helps Karm track reach, understand who is benefiting, and improve future CSR resources."],
             ["Can we adapt the templates?", "Yes. Organizations can adapt the materials to match their structure, roles, and performance cycle."],
             ["Where will the training videos go?", "The current video card is a placeholder. It can later be replaced with YouTube, Vimeo, or a hosted training link."],
           ],
@@ -225,14 +224,7 @@
           feedbackText: "Your feedback helps Karm improve this CSR resource and understand how teams are using it.",
           feedbackButton: "Share feedback on the toolkit",
           karmWebsite: "Visit Karm",
-          modalLabel: "Toolkit access",
-          modalTitle: "Unlock the toolkit downloads",
-          modalHelp: "Submit the form once to access both documents in this browser.",
-          closeForm: "Close form",
-          fields: [["name", "Full name", "text"], ["email", "Work email", "email"], ["organization", "Organization", "text"], ["role", "Role or job title", "text"], ["country", "Country", "text"], ["sector", "Sector", "text"]],
-          privacy: "Your information is used to understand toolkit reach and CSR impact. Replace this demo text with the final privacy notice before launch.",
-          submitDownload: "Submit and unlock downloads",
-          notice: "is downloading. You now have access to both documents.",
+          accessNote: "You will be asked to complete a short Microsoft Form. Karm uses the responses to understand reach and improve this CSR resource.",
         },
         ar: {
           nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "الأثر", "الأسئلة"],
@@ -289,7 +281,8 @@
           ],
           templatesLabel: "تحميل الأدوات",
           templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
-          fillDownload: "املأ النموذج لفتح التحميلات",
+          fillDownload: "افتح نموذج الوصول",
+          formRedirectNotice: "تم فتح نموذج مايكروسوفت في تبويب جديد. بعد إرساله، استخدم رسالة التأكيد للوصول إلى المستندين.",
           downloadNow: "تحميل",
           sharePrompt: "وجدت هذا مفيداً؟ شاركه مع شبكتك.",
           shareLinkedIn: "مشاركة على لينكدإن",
@@ -310,7 +303,7 @@
           faqTitle: "أسئلة شائعة حول مجموعة الأدوات.",
           faqs: [
             ["هل مجموعة الأدوات مجانية؟", "نعم. الدليل والنماذج متاحة مجاناً ضمن التزام كرم بالمسؤولية المجتمعية."],
-            ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا النموذج القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
+            ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا نموذج مايكروسوفت القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
             ["هل يمكن تعديل النماذج؟", "نعم. يمكن للمؤسسات تعديل المواد بما يتناسب مع هيكلها وأدوارها ودورة إدارة الأداء لديها."],
             ["أين سيتم وضع فيديو التدريب؟", "بطاقة الفيديو الحالية مساحة مؤقتة، ويمكن لاحقاً استبدالها برابط يوتيوب أو فيميو أو فيديو مستضاف."],
           ],
@@ -321,14 +314,7 @@
           feedbackText: "تساعدنا ملاحظاتك على تحسين هذا المورد المجتمعي وفهم كيفية استخدام الفرق له.",
           feedbackButton: "شارك رأيك حول مجموعة الأدوات",
           karmWebsite: "زيارة كرم",
-          modalLabel: "بيانات الوصول",
-          modalTitle: "فتح تحميلات مجموعة الأدوات",
-          modalHelp: "أرسل النموذج مرة واحدة للوصول إلى المستندين في هذا المتصفح.",
-          closeForm: "إغلاق النموذج",
-          fields: [["name", "الاسم الكامل", "text"], ["email", "البريد الإلكتروني للعمل", "email"], ["organization", "المؤسسة", "text"], ["role", "الدور أو المسمى الوظيفي", "text"], ["country", "الدولة", "text"], ["sector", "القطاع", "text"]],
-          privacy: "تُستخدم هذه البيانات لفهم مدى وصول المجموعة وقياس أثر المبادرة. يُرجى استبدال هذا النص بإشعار الخصوصية النهائي قبل الإطلاق.",
-          submitDownload: "إرسال وفتح التحميلات",
-          notice: "قيد التحميل. أصبح بإمكانك الآن تحميل المستندين.",
+          accessNote: "سيُطلب منك إكمال نموذج مايكروسوفت قصير. تستخدم كرم الردود لفهم مدى الوصول وتحسين هذا المورد المجتمعي.",
         },
       };
 
@@ -356,23 +342,6 @@
         };
       }
 
-      function loadAccess() {
-        try {
-          return JSON.parse(localStorage.getItem(accessStorageKey)) === true;
-        } catch (error) {
-          return false;
-        }
-      }
-
-      function downloadResource(resource) {
-        const link = document.createElement("a");
-        link.href = resource.fileUrl;
-        link.download = resource.downloadName || "";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      }
-
       function summarizeSubmissions(submissions, key) {
         return Object.entries(
           (submissions || []).reduce((summary, entry) => {
@@ -382,47 +351,6 @@
             return summary;
           }, {})
         ).sort((a, b) => b[1] - a[1]);
-      }
-
-      function splitName(fullName) {
-        const parts = fullName.trim().split(/\s+/).filter(Boolean);
-        return {
-          firstName: parts[0] || "",
-          lastName: parts.slice(1).join(" "),
-        };
-      }
-
-      async function submitToPowerAutomate(submission) {
-        if (!powerAutomateUrl) return;
-
-        const { firstName, lastName } = splitName(submission.name || "");
-        const payload = {
-          timestamp: new Date().toISOString(),
-          firstName,
-          lastName,
-          email: submission.email,
-          organization: submission.organization,
-          country: submission.country,
-          region: submission.region || "",
-          role: submission.role,
-          sector: submission.sector,
-          source: "Website",
-          requestedResource: submission.requestedResource,
-        };
-
-        try {
-          await fetch(powerAutomateUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-        } catch (error) {
-          await fetch(powerAutomateUrl, {
-            method: "POST",
-            mode: "no-cors",
-            body: JSON.stringify(payload),
-          }).catch(() => null);
-        }
       }
 
       function App() {
@@ -440,26 +368,11 @@
           tag: isArabic ? video.tagAr : video.tag,
         }));
         const [impact, setImpact] = useState(loadImpact);
-        const [hasAccess, setHasAccess] = useState(loadAccess);
-        const [selectedTemplate, setSelectedTemplate] = useState(localizedTemplates[0]);
-        const [isModalOpen, setIsModalOpen] = useState(false);
-        const [form, setForm] = useState({
-          name: "",
-          email: "",
-          organization: "",
-          role: "",
-          country: "",
-          sector: "",
-        });
         const [notice, setNotice] = useState("");
 
         useEffect(() => {
           localStorage.setItem(storageKey, JSON.stringify(impact));
         }, [impact]);
-
-        useEffect(() => {
-          localStorage.setItem(accessStorageKey, JSON.stringify(hasAccess));
-        }, [hasAccess]);
 
         useEffect(() => {
           document.documentElement.lang = language;
@@ -476,63 +389,9 @@
           [impact.submissions]
         );
 
-        function recordDownload(template, submission = null) {
-          setImpact((currentImpact) => {
-            const currentSubmissions = currentImpact.submissions || [];
-            const currentTemplates = currentImpact.templates || {};
-            const nextSubmissions = submission
-              ? [...currentSubmissions, submission]
-              : currentSubmissions;
-            const uniqueOrganizations = new Set(
-              nextSubmissions.map((entry) => entry.organization.toLowerCase()).filter(Boolean)
-            );
-
-            return {
-              downloads: (currentImpact.downloads || 0) + 1,
-              organizations: uniqueOrganizations.size,
-              templates: {
-                ...currentTemplates,
-                [template.name]: (currentTemplates[template.name] || 0) + 1,
-              },
-              submissions: nextSubmissions,
-            };
-          });
-        }
-
         function openDownload(template) {
-          setSelectedTemplate(template);
-          setNotice("");
-
-          if (hasAccess) {
-            recordDownload(template);
-            downloadResource(template);
-            setNotice(`${template.name} ${copy.notice}`);
-            return;
-          }
-
-          setIsModalOpen(true);
-        }
-
-        async function submitDownload(event) {
-          event.preventDefault();
-
-          const cleanForm = Object.fromEntries(
-            Object.entries(form).map(([key, value]) => [key, value.trim()])
-          );
-
-          const submission = {
-            ...cleanForm,
-            requestedResource: selectedTemplate.name,
-            unlockedAt: new Date().toISOString(),
-          };
-
-          await submitToPowerAutomate(submission);
-          setHasAccess(true);
-          recordDownload(selectedTemplate, submission);
-          downloadResource(selectedTemplate);
-          setIsModalOpen(false);
-          setNotice(`${selectedTemplate.name} ${copy.notice}`);
-          setForm({ name: "", email: "", organization: "", role: "", country: "", sector: "" });
+          setNotice(copy.formRedirectNotice);
+          window.open(microsoftFormUrl, "_blank", "noopener,noreferrer");
         }
 
         function copyToolkitLink() {
@@ -745,6 +604,7 @@
                     <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-normal text-karm-charcoal">
                       {copy.templatesTitle}
                     </h2>
+                    <p className="mt-4 max-w-2xl leading-7 text-gray-600">{copy.accessNote}</p>
                   </div>
                   {notice && (
                     <p className="max-w-sm rounded-2xl border border-karm-green/40 bg-white px-5 py-4 text-sm font-semibold text-gray-600 shadow-sm">
@@ -767,7 +627,7 @@
                         onClick={() => openDownload(template)}
                         className="mt-8 rounded-full bg-karm-charcoal px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-700"
                       >
-                        {hasAccess ? copy.downloadNow : copy.fillDownload}
+                        {copy.fillDownload}
                       </button>
                     </article>
                   ))}
@@ -972,50 +832,6 @@
               <p>{copy.footerNote}</p>
             </footer>
 
-            {isModalOpen && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-karm-charcoal/60 px-5 py-8">
-                <div className="max-h-full w-full max-w-xl overflow-auto rounded-lg bg-white p-6 shadow-soft">
-                  <div className="mb-6 flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-[0.18em] text-karm-red">{copy.modalLabel}</p>
-                      <h2 className="mt-2 text-2xl font-black text-karm-charcoal">{copy.modalTitle}</h2>
-                      <p className="mt-2 text-sm leading-6 text-gray-600">{copy.modalHelp}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-xl font-bold text-gray-500 hover:border-karm-red hover:text-karm-red"
-                      aria-label={copy.closeForm}
-                    >
-                      X
-                    </button>
-                  </div>
-                  <form onSubmit={submitDownload} className="grid gap-4">
-                    {copy.fields.map(([name, label, type]) => (
-                      <label key={name} className="grid gap-2 text-sm font-bold text-karm-charcoal">
-                        {label}
-                        <input
-                          required
-                          type={type}
-                          value={form[name]}
-                          onChange={(event) => setForm({ ...form, [name]: event.target.value })}
-                          className="rounded-lg border border-gray-200 px-4 py-3 text-base font-medium outline-none transition focus:border-karm-blue focus:ring-4 focus:ring-karm-blue/15"
-                        />
-                      </label>
-                    ))}
-                    <p className="rounded-lg bg-gray-50 p-4 text-sm leading-6 text-gray-600">
-                      {copy.privacy}
-                    </p>
-                    <button
-                      type="submit"
-                      className="rounded-full bg-karm-red px-6 py-4 text-sm font-black text-white shadow-soft transition hover:-translate-y-0.5"
-                    >
-                      {copy.submitDownload}
-                    </button>
-                  </form>
-                </div>
-              </div>
-            )}
           </main>
         );
       }
