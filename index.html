@@ -66,6 +66,8 @@
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
       const feedbackUrl = "https://www.karmsolar.com/";
       const microsoftFormUrl = "https://forms.cloud.microsoft/r/hD98dw9DaA";
+      const englishTrainingVideoUrl =
+        "https://karmsolaregypt-my.sharepoint.com/:v:/g/personal/yara_rashad_karmsolar_com/IQCZz9lGPB_iQYZPLky10wK_AesrR2q45PSnIk1SptQG05E?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=rRikQ5";
 
       const templates = [
         {
@@ -118,13 +120,14 @@
 
       const videos = [
         {
-          title: "Performance Management Foundations",
-          titleAr: "أساسيات إدارة الأداء",
-          length: "12 min",
-          lengthAr: "12 دقيقة",
-          tag: "Start here",
-          tagAr: "ابدأ هنا",
-          url: "assets/training/english/review-player.html",
+          title: "Performance Management Toolkit Walkthrough",
+          titleAr: "شرح مجموعة أدوات إدارة الأداء",
+          length: "English video",
+          lengthAr: "فيديو باللغة الإنجليزية",
+          tag: "Watch now",
+          tagAr: "شاهد الآن",
+          url: englishTrainingVideoUrl,
+          thumbnail: "assets/training/english/opening-karm-toolkit.png",
         },
       ];
 
@@ -215,7 +218,7 @@
             ["Is the toolkit free?", "Yes. The manual and templates are shared as part of Karm's CSR commitment and are free to use."],
             ["Why is there a form before download?", "The short Microsoft Form helps Karm track reach, understand who is benefiting, and improve future CSR resources."],
             ["Can we adapt the templates?", "Yes. Organizations can adapt the materials to match their structure, roles, and performance cycle."],
-            ["Where will the training videos go?", "The current video card is a placeholder. It can later be replaced with YouTube, Vimeo, or a hosted training link."],
+            ["Where can I watch the training?", "The training card links to the English walkthrough video hosted on Karm's SharePoint."],
           ],
           footerText: "Performance Management Toolkit",
           footerNote: "Designed as a CSR resource for accessible people management practices.",
@@ -305,7 +308,7 @@
             ["هل مجموعة الأدوات مجانية؟", "نعم. الدليل والنماذج متاحة مجاناً ضمن التزام كرم بالمسؤولية المجتمعية."],
             ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا نموذج مايكروسوفت القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
             ["هل يمكن تعديل النماذج؟", "نعم. يمكن للمؤسسات تعديل المواد بما يتناسب مع هيكلها وأدوارها ودورة إدارة الأداء لديها."],
-            ["أين سيتم وضع فيديو التدريب؟", "بطاقة الفيديو الحالية مساحة مؤقتة، ويمكن لاحقاً استبدالها برابط يوتيوب أو فيميو أو فيديو مستضاف."],
+            ["أين يمكن مشاهدة التدريب؟", "ترتبط بطاقة التدريب بفيديو الشرح باللغة الإنجليزية المستضاف على شيربوينت الخاص بكرم."],
           ],
           footerText: "مجموعة أدوات إدارة الأداء",
           footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
@@ -671,8 +674,16 @@
                     rel="noreferrer"
                     className="block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                   >
-                    <div className="video-ratio flex items-center justify-center bg-karm-charcoal">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl font-black text-karm-red">
+                    <div className="video-ratio relative flex items-center justify-center overflow-hidden bg-karm-charcoal">
+                      {video.thumbnail && (
+                        <img
+                          src={video.thumbnail}
+                          alt=""
+                          className="absolute inset-0 h-full w-full object-cover"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-karm-charcoal/10"></div>
+                      <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl font-black text-karm-red">
                         {copy.play}
                       </div>
                     </div>
