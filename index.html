@@ -64,7 +64,7 @@
 
       const storageKey = "karm-toolkit-impact";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
-      const feedbackUrl = "https://www.karmsolar.com/";
+      const feedbackUrl = "https://forms.cloud.microsoft/r/bkr8FtmFyi";
       const microsoftFormUrl = "https://forms.cloud.microsoft/r/hD98dw9DaA";
       const englishTrainingVideoUrl =
         "https://karmsolaregypt-my.sharepoint.com/:v:/g/personal/yara_rashad_karmsolar_com/IQCZz9lGPB_iQYZPLky10wK_AesrR2q45PSnIk1SptQG05E?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=rRikQ5";
@@ -207,10 +207,6 @@
           impactLabel: "Impact Dashboard",
           impactTitle: "CSR Impact Dashboard",
           impactStats: ["Total downloads", "Organizations"],
-          templateActivity: "Template activity",
-          countriesReached: "Countries reached",
-          sectorBreakdown: "Sectors",
-          localDemo: "Local demo",
           defaultTopTemplate: "Performance Management Template - 2026",
           faqLabel: "FAQ",
           faqTitle: "Common questions about the toolkit.",
@@ -297,10 +293,6 @@
           impactLabel: "لوحة قياس الأثر",
           impactTitle: "لوحة قياس أثر المبادرة",
           impactStats: ["إجمالي التحميلات", "المؤسسات"],
-          templateActivity: "نشاط التحميل",
-          countriesReached: "الدول التي وصلنا إليها",
-          sectorBreakdown: "القطاعات",
-          localDemo: "عرض تجريبي",
           defaultTopTemplate: "نموذج إدارة الأداء 2026",
           faqLabel: "الأسئلة الشائعة",
           faqTitle: "أسئلة شائعة حول مجموعة الأدوات.",
@@ -345,17 +337,6 @@
         };
       }
 
-      function summarizeSubmissions(submissions, key) {
-        return Object.entries(
-          (submissions || []).reduce((summary, entry) => {
-            const value = (entry[key] || "").trim();
-            if (!value) return summary;
-            summary[value] = (summary[value] || 0) + 1;
-            return summary;
-          }, {})
-        ).sort((a, b) => b[1] - a[1]);
-      }
-
       function App() {
         const [language, setLanguage] = useState("en");
         const isArabic = language === "ar";
@@ -381,16 +362,6 @@
           document.documentElement.lang = language;
           document.documentElement.dir = isArabic ? "rtl" : "ltr";
         }, [language, isArabic]);
-
-        const countrySummary = useMemo(
-          () => summarizeSubmissions(impact.submissions, "country"),
-          [impact.submissions]
-        );
-
-        const sectorSummary = useMemo(
-          () => summarizeSubmissions(impact.submissions, "sector"),
-          [impact.submissions]
-        );
 
         function openDownload(template) {
           setNotice(copy.formRedirectNotice);
@@ -719,66 +690,6 @@
                         <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
                           <p className="text-sm font-bold text-gray-500">{label}</p>
                           <p className={`mt-3 text-3xl font-black ${color}`}>{value}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-6 rounded-lg bg-white p-5 shadow-sm">
-                      <div className="mb-5 flex items-center justify-between">
-                        <h3 className="text-lg font-black text-karm-charcoal">{copy.templateActivity}</h3>
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-gray-400">{copy.localDemo}</span>
-                      </div>
-                      <div className="space-y-4">
-                        {localizedTemplates.map((template) => {
-                          const count = impact.templates[template.name] || 0;
-                          const width = impact.downloads ? Math.max(8, (count / impact.downloads) * 100) : 8;
-                          return (
-                            <div key={template.id}>
-                              <div className="mb-2 flex justify-between gap-4 text-sm font-semibold">
-                                <span>{template.name}</span>
-                                <span>{count}</span>
-                              </div>
-                              <div className="h-3 overflow-hidden rounded-full bg-gray-100">
-                                <div
-                                  className={`h-full rounded-full ${{
-                                    red: "bg-karm-red",
-                                    green: "bg-karm-green",
-                                    blue: "bg-karm-blue",
-                                    orange: "bg-karm-orange",
-                                  }[template.color]}`}
-                                  style={{ width: `${width}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="mt-6 grid gap-4 md:grid-cols-2">
-                      {[
-                        [copy.countriesReached, countrySummary, "bg-karm-blue"],
-                        [copy.sectorBreakdown, sectorSummary, "bg-karm-orange"],
-                      ].map(([label, rows, color]) => (
-                        <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
-                          <div className="mb-4 flex items-center justify-between">
-                            <h3 className="text-lg font-black text-karm-charcoal">{label}</h3>
-                            <span className="text-3xl font-black text-karm-charcoal">{rows.length}</span>
-                          </div>
-                          <div className="space-y-3">
-                            {(rows.length ? rows : [["-", 0]]).slice(0, 4).map(([name, count]) => (
-                              <div key={name}>
-                                <div className="mb-1 flex justify-between gap-4 text-sm font-semibold text-gray-600">
-                                  <span>{name}</span>
-                                  <span>{count}</span>
-                                </div>
-                                <div className="h-2 overflow-hidden rounded-full bg-gray-100">
-                                  <div
-                                    className={`h-full rounded-full ${color}`}
-                                    style={{ width: `${count ? Math.max(12, (count / Math.max(...rows.map((row) => row[1]))) * 100) : 8}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
                         </div>
                       ))}
                     </div>
