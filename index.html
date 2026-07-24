@@ -79,7 +79,9 @@
           descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
           color: "red",
           fileUrl: "assets/downloads/performance-management-template-2026.xlsx",
+          fileUrlAr: "assets/downloads/performance-management-template-ar.xlsx",
           downloadName: "Performance Management Template - 2026xlsx.xlsx",
+          downloadNameAr: "نموذج إدارة الأداء.xlsx",
         },
         {
           id: "performance-management-manual",
@@ -90,7 +92,9 @@
           descriptionAr: "دليل عملي متكامل يوضح خطوات تطبيق مجموعة الأدوات خلال دورة إدارة الأداء.",
           color: "green",
           fileUrl: "assets/downloads/performance-management-manual.pdf",
+          fileUrlAr: "assets/downloads/performance-management-manual-ar.pdf",
           downloadName: "Performance Management Manual.pdf",
+          downloadNameAr: "دليل نظام إدارة الأداء.pdf",
         },
       ];
 
@@ -103,7 +107,9 @@
         descriptionAr: "ملف عمل متكامل لأهداف الأداء، والمراجعات، والمواءمة، وخطط التطوير.",
         color: "green",
         fileUrl: "assets/downloads/performance-management-template-2026.xlsx",
+        fileUrlAr: "assets/downloads/performance-management-template-ar.xlsx",
         downloadName: "Performance Management Template - 2026xlsx.xlsx",
+        downloadNameAr: "نموذج إدارة الأداء.xlsx",
       };
 
       const manualResource = {
@@ -115,7 +121,9 @@
         descriptionAr: "دليل عملي متكامل يوضح خطوات تطبيق مجموعة الأدوات خلال دورة إدارة الأداء.",
         color: "blue",
         fileUrl: "assets/downloads/performance-management-manual.pdf",
+        fileUrlAr: "assets/downloads/performance-management-manual-ar.pdf",
         downloadName: "Performance Management Manual.pdf",
+        downloadNameAr: "دليل نظام إدارة الأداء.pdf",
       };
 
       const videos = [
@@ -318,6 +326,8 @@
           ...resource,
           name: language === "ar" ? resource.nameAr : resource.name,
           description: language === "ar" ? resource.descriptionAr : resource.description,
+          fileUrl: language === "ar" && resource.fileUrlAr ? resource.fileUrlAr : resource.fileUrl,
+          downloadName: language === "ar" && resource.downloadNameAr ? resource.downloadNameAr : resource.downloadName,
         };
       }
 
