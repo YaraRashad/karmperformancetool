@@ -653,7 +653,7 @@
                     href={video.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                    className="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
                   >
                     <div className="video-ratio relative flex items-center justify-center overflow-hidden bg-karm-charcoal">
                       {video.thumbnail && (
@@ -664,8 +664,13 @@
                         />
                       )}
                       <div className="absolute inset-0 bg-karm-charcoal/10"></div>
-                      <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl font-black text-karm-red">
-                        {copy.play}
+                      <div className="relative z-10 flex flex-col items-center gap-2">
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg ring-4 ring-white/40 transition group-hover:scale-105">
+                          <span className="ml-1 h-0 w-0 border-y-[11px] border-l-[18px] border-y-transparent border-l-karm-red"></span>
+                        </span>
+                        <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-black uppercase tracking-normal text-karm-red shadow-sm">
+                          {copy.play}
+                        </span>
                       </div>
                     </div>
                     <div className="p-6">
