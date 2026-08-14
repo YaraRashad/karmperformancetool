@@ -206,7 +206,7 @@
           templatesLabel: "Toolkit Downloads",
           templatesTitle: "Fill one short access form, then download both documents.",
           fillDownload: "Open access form",
-          formRedirectNotice: "The Microsoft Form opened in a new tab. After submitting it, use the confirmation message to access both documents.",
+          formRedirectNotice: "The Microsoft Form opened in a new tab. After submitting it, return here to download both documents.",
           downloadNow: "Download",
           sharePrompt: "Found this useful? Share it with your network.",
           shareLinkedIn: "Share on LinkedIn",
@@ -368,6 +368,7 @@
         const sectionLabelClass = isArabic ? "tracking-normal" : "uppercase tracking-[0.2em]";
         const [impact, setImpact] = useState(loadImpact);
         const [notice, setNotice] = useState("");
+        const [downloadsUnlocked, setDownloadsUnlocked] = useState(false);
 
         useEffect(() => {
           localStorage.setItem(storageKey, JSON.stringify(impact));
@@ -379,8 +380,20 @@
         }, [language, isArabic]);
 
         function openDownload(template) {
+          setDownloadsUnlocked(true);
           setNotice(copy.formRedirectNotice);
           window.open(microsoftFormUrl, "_blank", "noopener,noreferrer");
+        }
+
+        function trackDownload(template) {
+          setImpact((current) => ({
+            ...current,
+            downloads: current.downloads + 1,
+            templateCounts: {
+              ...current.templateCounts,
+              [template.id]: (current.templateCounts[template.id] || 0) + 1,
+            },
+          }));
         }
 
         function copyToolkitLink() {
@@ -611,13 +624,24 @@
                         <h3 className="mt-6 text-2xl font-black text-karm-charcoal">{template.name}</h3>
                         <p className="mt-4 leading-7 text-gray-600">{template.description}</p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => openDownload(template)}
-                        className="mt-8 rounded-full bg-karm-charcoal px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-700"
-                      >
-                        {copy.fillDownload}
-                      </button>
+                      {downloadsUnlocked ? (
+                        <a
+                          href={template.fileUrl}
+                          download={template.downloadName}
+                          onClick={() => trackDownload(template)}
+                          className="mt-8 rounded-full bg-karm-red px-5 py-3 text-center text-sm font-bold text-white transition hover:bg-red-500"
+                        >
+                          {copy.downloadNow}
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => openDownload(template)}
+                          className="mt-8 rounded-full bg-karm-charcoal px-5 py-3 text-sm font-bold text-white transition hover:bg-gray-700"
+                        >
+                          {copy.fillDownload}
+                        </button>
+                      )}
                     </article>
                   ))}
                 </div>
