@@ -64,6 +64,7 @@
 
       const storageKey = "karm-toolkit-impact";
       const siteUrl = "https://yararashad.github.io/karmperformancetool/";
+      const approvedAccessUrl = `${siteUrl}?access=approved#templates`;
       const feedbackUrl = "https://forms.cloud.microsoft/r/bkr8FtmFyi";
       const microsoftFormUrl = "https://forms.cloud.microsoft/r/hD98dw9DaA";
       const englishTrainingVideoUrl =
@@ -206,7 +207,8 @@
           templatesLabel: "Toolkit Downloads",
           templatesTitle: "Fill one short access form, then download both documents.",
           fillDownload: "Open access form",
-          formRedirectNotice: "The Microsoft Form opened in a new tab. After submitting it, return here to download both documents.",
+          formRedirectNotice: "The Microsoft Form opened in a new tab. Please submit it, then use the confirmation link to return and unlock both documents.",
+          unlockedNotice: "Access unlocked. You can now download both documents.",
           downloadNow: "Download",
           sharePrompt: "Found this useful? Share it with your network.",
           shareLinkedIn: "Share on LinkedIn",
@@ -292,7 +294,8 @@
           templatesLabel: "تحميل الأدوات",
           templatesTitle: "املأ نموذجاً قصيراً مرة واحدة، ثم حمّل المستندين.",
           fillDownload: "افتح نموذج الوصول",
-          formRedirectNotice: "تم فتح نموذج مايكروسوفت في تبويب جديد. بعد إرساله، استخدم رسالة التأكيد للوصول إلى المستندين.",
+          formRedirectNotice: "تم فتح نموذج مايكروسوفت في تبويب جديد. يرجى إرساله، ثم استخدم رابط التأكيد للعودة وفتح تحميل المستندين.",
+          unlockedNotice: "تم فتح الوصول. يمكنك الآن تحميل المستندين.",
           downloadNow: "تحميل",
           sharePrompt: "وجدت هذا مفيداً؟ شاركه مع شبكتك.",
           shareLinkedIn: "مشاركة على LinkedIn",
@@ -368,7 +371,10 @@
         const sectionLabelClass = isArabic ? "tracking-normal" : "uppercase tracking-[0.2em]";
         const [impact, setImpact] = useState(loadImpact);
         const [notice, setNotice] = useState("");
-        const [downloadsUnlocked, setDownloadsUnlocked] = useState(false);
+        const [downloadsUnlocked, setDownloadsUnlocked] = useState(() => {
+          const params = new URLSearchParams(window.location.search);
+          return params.get("access") === "approved";
+        });
 
         useEffect(() => {
           localStorage.setItem(storageKey, JSON.stringify(impact));
@@ -379,8 +385,13 @@
           document.documentElement.dir = isArabic ? "rtl" : "ltr";
         }, [language, isArabic]);
 
+        useEffect(() => {
+          if (downloadsUnlocked) {
+            setNotice(copy.unlockedNotice);
+          }
+        }, [downloadsUnlocked, copy.unlockedNotice]);
+
         function openDownload(template) {
-          setDownloadsUnlocked(true);
           setNotice(copy.formRedirectNotice);
           window.open(microsoftFormUrl, "_blank", "noopener,noreferrer");
         }
