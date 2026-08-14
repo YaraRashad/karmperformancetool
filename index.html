@@ -68,6 +68,8 @@
       const microsoftFormUrl = "https://forms.cloud.microsoft/r/hD98dw9DaA";
       const englishTrainingVideoUrl =
         "https://karmsolaregypt-my.sharepoint.com/:v:/g/personal/yara_rashad_karmsolar_com/IQCZz9lGPB_iQYZPLky10wK_AesrR2q45PSnIk1SptQG05E?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=rRikQ5";
+      const arabicTrainingVideoUrl =
+        "https://karmsolaregypt-my.sharepoint.com/:v:/g/personal/yara_rashad_karmsolar_com/IQB-xVzeV3bzTLY1XQACZdv0AWDeYkwgN0SmEmMElt_OCvE?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=CGGEzM";
 
       const templates = [
         {
@@ -131,10 +133,11 @@
           title: "Performance Management Toolkit Walkthrough",
           titleAr: "شرح مجموعة أدوات إدارة الأداء",
           length: "English video",
-          lengthAr: "فيديو باللغة الإنجليزية",
+          lengthAr: "فيديو باللغة العربية",
           tag: "Watch now",
           tagAr: "شاهد الآن",
           url: englishTrainingVideoUrl,
+          urlAr: arabicTrainingVideoUrl,
           thumbnail: "assets/training/english/opening-karm-toolkit.png",
         },
       ];
@@ -308,7 +311,7 @@
             ["هل مجموعة الأدوات مجانية؟", "نعم. الدليل والنماذج متاحة مجاناً ضمن التزام كرم بالمسؤولية المجتمعية."],
             ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا نموذج مايكروسوفت القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
             ["هل يمكن تعديل النماذج؟", "نعم. يمكن للمؤسسات تعديل المواد بما يتناسب مع هيكلها وأدوارها ودورة إدارة الأداء لديها."],
-            ["أين يمكن مشاهدة التدريب؟", "ترتبط بطاقة التدريب بفيديو الشرح باللغة الإنجليزية المستضاف على شيربوينت الخاص بكرم."],
+            ["أين يمكن مشاهدة التدريب؟", "ترتبط بطاقة التدريب بفيديو الشرح باللغة العربية المستضاف على شيربوينت الخاص بكرم."],
           ],
           footerText: "مجموعة أدوات إدارة الأداء",
           footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
@@ -360,6 +363,7 @@
           title: isArabic ? video.titleAr : video.title,
           length: isArabic ? video.lengthAr : video.length,
           tag: isArabic ? video.tagAr : video.tag,
+          url: isArabic && video.urlAr ? video.urlAr : video.url,
         }));
         const sectionLabelClass = isArabic ? "tracking-normal" : "uppercase tracking-[0.2em]";
         const [impact, setImpact] = useState(loadImpact);
