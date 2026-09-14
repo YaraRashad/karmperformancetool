@@ -152,8 +152,8 @@
 
       const content = {
         en: {
-          nav: ["About", "Initiative", "Templates", "Training", "Impact", "FAQ"],
-          navLinks: ["#about", "#initiative", "#templates", "#training", "#impact", "#faq"],
+          nav: ["About", "Initiative", "Templates", "Training", "FAQ"],
+          navLinks: ["#about", "#initiative", "#templates", "#training", "#faq"],
           getToolkit: "Get toolkit",
           languageButton: "العربية",
           heroBadge: "Free CSR resource for growing teams",
@@ -215,9 +215,6 @@
           trainingLabel: "Training Videos",
           trainingTitle: "Short learning modules for managers and HR teams.",
           play: "Play",
-          impactLabel: "Impact Dashboard",
-          impactTitle: "CSR Impact Dashboard",
-          impactStats: ["Total downloads", "Organizations"],
           defaultTopTemplate: "Performance Management Template - 2026",
           faqLabel: "FAQ",
           faqTitle: "Common questions about the toolkit.",
@@ -237,8 +234,8 @@
           accessNote: "You will be asked to complete a short Microsoft Form. Karm uses the responses to understand reach and improve this CSR resource.",
         },
         ar: {
-          nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "الأثر", "الأسئلة"],
-          navLinks: ["#about", "#initiative", "#templates", "#training", "#impact", "#faq"],
+          nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "الأسئلة"],
+          navLinks: ["#about", "#initiative", "#templates", "#training", "#faq"],
           getToolkit: "احصل على الأدوات",
           languageButton: "English",
           heroBadge: "مورد مجاني ضمن مبادرات المسؤولية المجتمعية",
@@ -300,9 +297,6 @@
           trainingLabel: "فيديو التدريب",
           trainingTitle: "وحدة تدريبية قصيرة للمديرين وفرق الموارد البشرية.",
           play: "تشغيل",
-          impactLabel: "لوحة قياس الأثر",
-          impactTitle: "لوحة قياس أثر المبادرة",
-          impactStats: ["إجمالي التحميلات", "المؤسسات"],
           defaultTopTemplate: "نموذج إدارة الأداء 2026",
           faqLabel: "الأسئلة الشائعة",
           faqTitle: "أسئلة شائعة حول مجموعة الأدوات.",
@@ -719,32 +713,6 @@
                     </div>
                   </a>
                 ))}
-              </div>
-            </section>
-
-            <section id="impact" className="border-y border-gray-100 bg-white py-20">
-              <div className="mx-auto max-w-7xl px-5 lg:px-8">
-                <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-                  <div>
-                    <p className={`text-sm font-black ${sectionLabelClass} text-karm-orange`}>{copy.impactLabel}</p>
-                    <h2 className="mt-4 text-4xl font-black tracking-normal text-karm-charcoal">
-                      {copy.impactTitle}
-                    </h2>
-                  </div>
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
-                    <div className="grid gap-4 md:grid-cols-2">
-                      {[
-                        [copy.impactStats[0], impact.downloads, "text-karm-red"],
-                        [copy.impactStats[1], impact.organizations, "text-karm-green"],
-                      ].map(([label, value, color]) => (
-                        <div key={label} className="rounded-lg bg-white p-5 shadow-sm">
-                          <p className="text-sm font-bold text-gray-500">{label}</p>
-                          <p className={`mt-3 text-3xl font-black ${color}`}>{value}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
               </div>
             </section>
 
