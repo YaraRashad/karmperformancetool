@@ -51,6 +51,41 @@
       .video-ratio {
         aspect-ratio: 16 / 9;
       }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      .grid > *, .flex > * { min-width: 0; }
+      img, video, iframe { max-width: 100%; }
+      section[id] { scroll-margin-top: 7rem; }
+      h1 { font-size: clamp(2.15rem, 5.3vw, 4.5rem) !important; overflow-wrap: break-word; }
+      h2 { font-size: clamp(1.65rem, 3.5vw, 2.5rem) !important; line-height: 1.18 !important; }
+      h3 { overflow-wrap: break-word; }
+      .site-logo { width: clamp(6rem, 17vw, 12rem); height: auto; }
+      .desktop-nav { display: none; }
+      .mobile-nav summary { cursor: pointer; list-style: none; padding: .65rem .75rem; border: 1px solid #d1d5db; border-radius: 999px; font-size: .875rem; font-weight: 700; }
+      .mobile-nav summary::-webkit-details-marker { display: none; }
+      .mobile-nav[open] summary { background: #f3f4f6; }
+      .mobile-links { position: absolute; inset-inline: 0; top: 100%; padding: 1rem; background: white; border-bottom: 1px solid #e5e7eb; box-shadow: 0 12px 20px #0001; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .5rem; max-height: 70dvh; overflow-y: auto; }
+      .mobile-links a { padding: .8rem; border-radius: .5rem; background: #f9fafb; font-weight: 600; }
+      a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid #55c4eb; outline-offset: 4px; }
+      .training-player { width: 100%; aspect-ratio: 16 / 9; border: 0; display: block; }
+      .hero-actions { flex-wrap: wrap; }
+      .hero-actions a { flex: 1 1 10rem; }
+      @media (max-width: 639px) {
+        section.py-20, section > .py-20 { padding-top: 3rem; padding-bottom: 3rem; }
+        .hero-layout { min-height: auto; gap: 2rem; }
+        .site-header .header-toolkit { display: none; }
+        .site-header nav { padding: .85rem 1rem; gap: .5rem; }
+        .header-actions { gap: .25rem; }
+        .hero-layout p.text-lg { font-size: 1rem; line-height: 1.8; }
+      }
+      @media (min-width: 1200px) {
+        .desktop-nav { display: flex; align-items: center; gap: 1.5rem; }
+        .mobile-nav { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { transition: none !important; }
+      }
     </style>
   </head>
   <body class="bg-white text-karm-charcoal antialiased">
@@ -222,7 +257,7 @@
             ["Is the toolkit free?", "Yes. The manual and templates are shared as part of Karm's CSR commitment and are free to use."],
             ["Why is there a form before download?", "The short Microsoft Form helps Karm track reach, understand who is benefiting, and improve future CSR resources."],
             ["Can we adapt the templates?", "Yes. Organizations can adapt the materials to match their structure, roles, and performance cycle."],
-            ["Where can I watch the training?", "The training card links to the English walkthrough video hosted on Karm's SharePoint."],
+            ["Where can I watch the training?", "Play the English walkthrough directly in the Training section, or open it in a new window."],
           ],
           footerText: "Performance Management Toolkit",
           footerNote: "Designed as a CSR resource for accessible people management practices.",
@@ -304,7 +339,7 @@
             ["هل مجموعة الأدوات مجانية؟", "نعم. الدليل والنماذج متاحة مجاناً ضمن التزام كرم بالمسؤولية المجتمعية."],
             ["لماذا يوجد نموذج قبل التحميل؟", "يساعدنا نموذج مايكروسوفت القصير على قياس الوصول وفهم الجهات المستفيدة وتحسين الموارد القادمة."],
             ["هل يمكن تعديل النماذج؟", "نعم. يمكن للمؤسسات تعديل المواد بما يتناسب مع هيكلها وأدوارها ودورة إدارة الأداء لديها."],
-            ["أين يمكن مشاهدة التدريب؟", "ترتبط بطاقة التدريب بفيديو الشرح باللغة العربية المستضاف على شيربوينت الخاص بكرم."],
+            ["أين يمكن مشاهدة التدريب؟", "يمكنك تشغيل فيديو الشرح بالعربية مباشرة في قسم التدريب أو فتحه في نافذة جديدة."],
           ],
           footerText: "مجموعة أدوات إدارة الأداء",
           footerNote: "مصممة كمورد مجتمعي يسهّل الوصول إلى ممارسات إدارة الأفراد.",
@@ -341,6 +376,37 @@
           templates: {},
           submissions: [],
         };
+      }
+
+      function TrainingPlayer({ video, isArabic }) {
+        const [playing, setPlaying] = useState(false);
+        const fileName = isArabic ? "IMG_AR4336.MOV" : "IMG_0507.MOV";
+        const filePath = `/personal/yara_rashad_karmsolar_com/Documents/CSR - ToolKit/${fileName}`;
+        const embedUrl = `https://karmsolaregypt-my.sharepoint.com/personal/yara_rashad_karmsolar_com/_layouts/15/embed.aspx?ID=${encodeURIComponent(filePath)}&autoplay=false&ClientRender=1&action=embedview`;
+        return (
+          <article className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+            <div className="video-ratio relative bg-karm-charcoal">
+              {playing ? (
+                <iframe className="training-player" src={embedUrl} title={video.title}
+                  allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+              ) : (
+                <button type="button" onClick={() => setPlaying(true)}
+                  aria-label={isArabic ? "تشغيل فيديو الشرح بالعربية" : "Play English walkthrough"}
+                  className="absolute inset-0 flex w-full items-center justify-center overflow-hidden">
+                  <img src={video.thumbnail} alt="" className="absolute inset-0 h-full w-full object-contain" />
+                  <span className="absolute inset-0 bg-black/20"></span>
+                  <span aria-hidden="true" className="relative flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-karm-red shadow-lg">▶</span>
+                </button>
+              )}
+            </div>
+            <div className="p-5 sm:p-6">
+              <p className="text-sm font-bold text-karm-red">{video.length}</p>
+              <h3 className="mt-2 text-xl font-black text-karm-charcoal">{video.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-gray-600">{isArabic ? "إذا لم يعمل الفيديو هنا، افتحه في نافذة جديدة. قد يطلب منك Microsoft تسجيل الدخول." : "If the video does not play here, open it in a new window. Microsoft may ask you to sign in."}</p>
+              <a href={video.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block py-2 font-bold text-karm-charcoal underline underline-offset-4">{isArabic ? "فتح الفيديو في نافذة جديدة" : "Open video in a new window"}</a>
+            </div>
+          </article>
+        );
       }
 
       function App() {
@@ -408,17 +474,17 @@
 
         return (
           <main className={isArabic ? "text-right" : "text-left"}>
-            <header className="sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
+            <header className="site-header sticky top-0 z-30 border-b border-gray-100 bg-white/90 backdrop-blur">
               <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
                 <a href="#top" className="flex items-center gap-3">
-                  <img src={logoSrc} alt="Karm logo" className="h-14 w-auto md:h-16" />
+                  <img src={logoSrc} alt="Karm logo" className="site-logo" />
                 </a>
-                <div className="hidden items-center gap-7 text-sm font-medium text-gray-600 md:flex">
+                <div className="desktop-nav text-sm font-medium text-gray-600">
                   {copy.nav.map((item, index) => (
                     <a key={item} className="hover:text-karm-red" href={copy.navLinks[index]}>{item}</a>
                   ))}
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="header-actions flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => setLanguage(isArabic ? "en" : "ar")}
@@ -428,16 +494,24 @@
                   </button>
                   <a
                     href="#templates"
-                    className="flex h-11 items-center justify-center rounded-full bg-karm-charcoal px-5 text-sm font-semibold text-white shadow-soft transition hover:bg-gray-700"
+                    className="header-toolkit flex h-11 items-center justify-center rounded-full bg-karm-charcoal px-5 text-sm font-semibold text-white shadow-soft transition hover:bg-gray-700"
                   >
                     {copy.getToolkit}
                   </a>
+                  <details className="mobile-nav">
+                    <summary>{isArabic ? "القائمة" : "Menu"}</summary>
+                    <div className="mobile-links" aria-label={isArabic ? "التنقل بين الأقسام" : "Section navigation"}>
+                      {copy.nav.map((item, index) => (
+                        <a key={item} href={copy.navLinks[index]} onClick={(event) => event.currentTarget.closest("details").removeAttribute("open")}>{item}</a>
+                      ))}
+                    </div>
+                  </details>
                 </div>
               </nav>
             </header>
 
             <section id="top" className="relative overflow-hidden border-b border-gray-100">
-              <div className="mx-auto grid min-h-[calc(100vh-74px)] max-w-7xl items-center gap-12 px-5 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+              <div className="hero-layout mx-auto grid min-h-[calc(100svh-96px)] max-w-7xl items-center gap-12 px-5 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
                 <div>
                   <div className="mb-7 inline-flex items-center gap-3 text-sm font-semibold text-gray-600">
                     <span className="h-2.5 w-2.5 rounded-full bg-karm-red"></span>
@@ -460,7 +534,7 @@
                   <p className="mt-7 max-w-2xl text-lg leading-8 text-gray-600">
                     {copy.heroText}
                   </p>
-                  <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <div className="hero-actions mt-9 flex flex-col gap-3 sm:flex-row">
                     <a
                       href="#templates"
                       className="rounded-full bg-karm-red px-7 py-4 text-center text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5"
@@ -678,40 +752,9 @@
                   {copy.trainingTitle}
                 </h2>
               </div>
-              <div className="grid max-w-2xl gap-6">
-                {localizedVideos.map((video, index) => (
-                  <a
-                    key={video.title}
-                    href={video.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group block overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <div className="video-ratio relative flex items-center justify-center overflow-hidden bg-karm-charcoal">
-                      {video.thumbnail && (
-                        <img
-                          src={video.thumbnail}
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover"
-                        />
-                      )}
-                      <div className="absolute inset-0 bg-karm-charcoal/10"></div>
-                      <div className="relative z-10 flex items-center justify-center">
-                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg ring-4 ring-white/40 transition group-hover:scale-105">
-                          <span className="ml-1 h-0 w-0 border-y-[11px] border-l-[18px] border-y-transparent border-l-karm-red"></span>
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-center justify-between gap-4">
-                        <span className={`rounded-full px-3 py-1 text-xs font-black ${["bg-red-50 text-karm-red", "bg-lime-50 text-karm-green", "bg-sky-50 text-karm-blue"][index]}`}>
-                          {video.tag}
-                        </span>
-                        <span className="text-sm font-semibold text-gray-500">{video.length}</span>
-                      </div>
-                      <h3 className="mt-5 text-xl font-black text-karm-charcoal">{video.title}</h3>
-                    </div>
-                  </a>
+              <div className="mx-auto w-full max-w-5xl">
+                {localizedVideos.map((video) => (
+                  <TrainingPlayer key={language + video.url} video={video} isArabic={isArabic} />
                 ))}
               </div>
             </section>
