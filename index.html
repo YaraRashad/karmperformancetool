@@ -85,6 +85,14 @@
         html { scroll-behavior: auto; }
         *, *::before, *::after { transition: none !important; }
       }
+
+      .pillar-card summary { list-style: none; cursor: pointer; }
+      .pillar-card summary::-webkit-details-marker { display: none; }
+      .pillar-card .less-label { display: none; }
+      .pillar-card[open] .more-label { display: none; }
+      .pillar-card[open] .less-label { display: inline; }
+      .pillar-card[open] .pillar-toggle { transform: rotate(45deg); }
+      .pillar-card summary:focus-visible { outline: 3px solid #55c4eb; outline-offset: 6px; border-radius: .25rem; }
     </style>
   </head>
   <body class="bg-white text-karm-charcoal antialiased">
@@ -186,6 +194,12 @@
 
       const content = {
         en: {
+          pillarsTitle: "Our Three Performance Pillars",
+          pillarsLabel: "The Karm methodology",
+          learnMore: "Learn more",
+          showLess: "Show less",
+          pillars: [["KNOWLEDGE", "What you know and how you grow it.", "Performance starts with having the right knowledge, continuously building it, and being able to apply and contribute that knowledge.", ["Knowledge", "Accumulate", "Apply", "Produce"]], ["ATTITUDE", "How you show up.", "Knowledge alone is not enough. Attitude is reflected in our behavior, ownership, collaboration, professionalism, and the way we approach challenges and people.", ["Behavior", "Ownership", "Impact"]], ["FEEDBACK", "How we grow.", "Performance improves when people are open to receiving feedback and capable of giving constructive feedback to others. Feedback should be continuous, honest, and focused on development.", ["Receive", "Reflect", "Give"]]],
+          pillarsClosing: "Together, these three pillars shape how we think about performance: building the knowledge to perform, demonstrating the right attitude, and using feedback to continuously improve.",
           nav: ["About", "Initiative", "Templates", "Training", "Feedback", "FAQ"],
           navLinks: ["#about", "#initiative", "#templates", "#training", "#feedback", "#faq"],
           getToolkit: "Get toolkit",
@@ -268,6 +282,12 @@
           accessNote: "You will be asked to complete a short Microsoft Form. Karm uses the responses to understand reach and improve this CSR resource.",
         },
         ar: {
+          pillarsTitle: "ركائزنا الثلاث للأداء",
+          pillarsLabel: "منهجية كَرْم",
+          learnMore: "اعرف المزيد",
+          showLess: "عرض أقل",
+          pillars: [["المعرفة", "ما تعرفه وكيف تطوّره.", "يبدأ الأداء بامتلاك المعرفة المناسبة، وتنميتها باستمرار، والقدرة على تطبيقها والإسهام في إنتاجها.", ["المعرفة", "التراكم", "التطبيق", "الإنتاج"]], ["السلوك", "كيف تتصرف وتتفاعل.", "المعرفة وحدها لا تكفي. ينعكس السلوك في تصرفاتنا، وتحملنا للمسؤولية، وتعاوننا، ومهنيتنا، وطريقة تعاملنا مع التحديات والأشخاص.", ["السلوك", "تحمّل المسؤولية", "الأثر"]], ["تقبّل النقد", "كيف ننمو ونتطور.", "يتحسن الأداء عندما يكون الأفراد منفتحين على تلقي الملاحظات وقادرين على تقديم ملاحظات بنّاءة للآخرين. وينبغي أن تكون الملاحظات مستمرة وصادقة وموجّهة نحو التطوير.", ["التلقي", "التأمل", "التقديم"]]],
+          pillarsClosing: "تشكل هذه الركائز الثلاث معًا نظرتنا إلى الأداء: بناء المعرفة اللازمة للإنجاز، وإظهار السلوك المناسب، والاستفادة من الملاحظات للتحسين المستمر.",
           nav: ["عن المبادرة", "المبادرة", "النماذج", "التدريب", "شاركنا رأيك", "الأسئلة"],
           navLinks: ["#about", "#initiative", "#templates", "#training", "#feedback", "#faq"],
           getToolkit: "احصل على الأدوات",
@@ -576,6 +596,40 @@
                     </article>
                   ))}
                 </div>
+              </div>
+            </section>
+
+            <section id="pillars" aria-labelledby="pillars-heading" className="border-y border-gray-100 bg-gray-50 px-5 py-20 lg:px-8">
+              <div className="mx-auto max-w-7xl">
+                <p className={`text-sm font-black ${sectionLabelClass} text-karm-red`}>{copy.pillarsLabel}</p>
+                <h2 id="pillars-heading" className="mt-4 text-4xl font-black text-karm-charcoal">{copy.pillarsTitle}</h2>
+                <div className="mt-10 grid items-start gap-6 lg:grid-cols-3">
+                  {copy.pillars.map(([title, subtitle, explanation, steps], index) => (
+                    <article key={title} className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
+                      <div aria-hidden="true" className={`mb-6 h-1.5 w-12 rounded-full ${["bg-karm-red", "bg-karm-green", "bg-karm-blue"][index]}`}></div>
+                      <h3 className="text-xl font-black text-karm-charcoal">{title}</h3>
+                      <p className="mt-3 text-lg italic leading-7 text-gray-600">{subtitle}</p>
+                      <details className="pillar-card mt-6">
+                        <summary aria-label={`${copy.learnMore}: ${title}`} className="flex min-h-11 items-center justify-between gap-4 font-bold text-karm-charcoal">
+                          <span><span className="more-label">{copy.learnMore}</span><span className="less-label">{copy.showLess}</span></span>
+                          <span aria-hidden="true" className="pillar-toggle text-2xl transition-transform">+</span>
+                        </summary>
+                        <div className="mt-4 border-t border-gray-100 pt-5">
+                          <p className="leading-7 text-gray-600">{explanation}</p>
+                          <ol className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-3 text-sm font-bold text-karm-charcoal">
+                            {steps.map((step, stepIndex) => (
+                              <li key={step} className="flex items-center gap-2">
+                                {stepIndex > 0 && <span aria-hidden="true" className="text-gray-400">{isArabic ? "←" : "→"}</span>}
+                                <span className="rounded-md bg-gray-50 px-2 py-1">{step}</span>
+                              </li>
+                            ))}
+                          </ol>
+                        </div>
+                      </details>
+                    </article>
+                  ))}
+                </div>
+                <p className="mt-8 max-w-4xl text-lg leading-8 text-gray-600">{copy.pillarsClosing}</p>
               </div>
             </section>
 
